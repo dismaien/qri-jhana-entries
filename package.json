@@ -1,0 +1,28 @@
+{
+  "name": "qri-jhana-entries",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "render:somatic": "node scripts/render-entry.mjs somatic-arc",
+    "render:formless": "node scripts/render-entry.mjs formless-mirror",
+    "render:induction": "node scripts/render-entry.mjs induction-lantern",
+    "board:somatic": "node scripts/make-contact-sheet.mjs somatic-arc",
+    "board:formless": "node scripts/make-contact-sheet.mjs formless-mirror",
+    "board:induction": "node scripts/make-contact-sheet.mjs induction-lantern"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.10.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11"
+  },
+  "dependencies": {
+    "lil-gui": "^0.21.0",
+    "sharp": "^0.34.5",
+    "three": "^0.183.2",
+    "vite-plugin-glsl": "^1.5.6"
+  }
+}

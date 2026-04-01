@@ -1,0 +1,45 @@
+# Local Tooling
+
+Installed and verified on this machine for the repo workflow:
+
+- Google Chrome for deterministic headless browser rendering
+- `ffmpeg` for MP4 assembly
+- ImageMagick for image assembly and quick review tooling
+- Blender for local 3D / volumetric look-dev
+
+Repo-side packages now installed:
+
+- `three` for richer scene and shader work when we outgrow pure 2D canvas
+- `lil-gui` for parameter tweaking
+- `sharp` for contact sheets and review boards
+- `vite-plugin-glsl` so shader files can be added cleanly
+
+## Useful Commands
+
+```bash
+npm run build
+npm run render:somatic
+npm run render:formless
+npm run render:induction
+npm run board:somatic
+npm run board:formless
+npm run board:induction
+```
+
+## Blender Smoke Test
+
+Once Blender is available in the shell, you can render a proof image with:
+
+```bash
+blender -b -P scripts/blender_smoke.py
+```
+
+This writes:
+
+```bash
+renders/blender-smoke.png
+```
+
+## Why TouchDesigner Is Not Auto-Installed Here
+
+TouchDesigner is a very plausible tool for this competition, but I did not auto-install it because its distribution and licensing flow is different from the rest of this stack and it is less straightforward to script headlessly in this environment than Blender.

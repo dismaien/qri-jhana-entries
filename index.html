@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jhana Energy Lab</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="panel" id="panel">
+        <p class="eyebrow">QRI Jhana Visualization Competition 2026</p>
+        <h1>Jhana Energy Lab</h1>
+        <p class="lede" id="entry-summary"></p>
+
+        <div class="controls">
+          <label class="control">
+            <span>Entry</span>
+            <select id="entry-select"></select>
+          </label>
+
+          <label class="control">
+            <span>Time</span>
+            <input id="time-scrubber" type="range" min="0" max="1000" value="0" />
+          </label>
+
+          <div class="transport">
+            <button id="play-toggle" type="button">Pause</button>
+            <div class="status">
+              <strong id="current-segment">Loading...</strong>
+              <span id="current-time">0:00 / 0:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="meta-block">
+          <h2>Competition Tags</h2>
+          <p id="entry-tags"></p>
+        </div>
+
+        <div class="meta-block">
+          <h2>Segment Map</h2>
+          <ol id="segment-list"></ol>
+        </div>
+
+        <div class="meta-block note">
+          <h2>Why This Structure</h2>
+          <p>
+            Entry 1 focuses on J1-J4 with a somatic avatar. Entry 2 handles the formless
+            jhanas. Entry 3 is an induction-aid honorable-mention attempt that can stay more
+            instructional.
+          </p>
+        </div>
+      </aside>
+
+      <main class="stage-wrap">
+        <canvas id="stage" aria-label="Meditation energy visualization"></canvas>
+      </main>
+    </div>
+  </body>
+</html>
