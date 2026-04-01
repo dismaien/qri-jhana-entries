@@ -17,6 +17,13 @@ The app is a deterministic canvas sketchbook so the same scenes can be explored 
 - Added `three`, `lil-gui`, `sharp`, and GLSL support to the repo
 - Added contact-sheet generation scripts for quick review boards
 
+## Newer Passes
+
+- `docs/research-run-2026-03-29.md`: public-entry sweep plus the membrane/firefly direction
+- `docs/research-run-2026-04-01.md`: QRI-source design grammar focused on tactile modalities, resonance, ADSR, and attention field lines
+- `scripts/extract-stills.mjs`: reproducible still extraction from the latest preview MP4s
+- `scripts/refresh-entry.mjs`: one-command rerender + still extraction + board refresh
+
 ## Competition Constraints We Are Building Around
 
 - Deadline: June 4, 2026 at 10:00 PM Pacific.
@@ -35,10 +42,13 @@ Source links:
 
 - `src/`: interactive visualizer and deterministic renderer
 - `scripts/render-entry.mjs`: headless Chrome + `ffmpeg` export path
+- `scripts/extract-stills.mjs`: pulls standard review stills from preview MP4s
+- `scripts/refresh-entry.mjs`: rerender + stills + board in one pass
 - `scripts/make-contact-sheet.mjs`: turns stills into review boards
 - `scripts/blender_smoke.py`: minimal Blender smoke render
 - `docs/competition-notes.md`: distilled brief from the contest page
 - `docs/research-run-2026-03-25.md`: broad tool/workflow research pass
+- `docs/research-run-2026-04-01.md`: QRI-sourced design grammar for tactile and attention motifs
 - `docs/prompt-bank.md`: starter prompts for external image/video tools
 - `docs/local-tooling.md`: local install notes and useful commands
 - `docs/entry-01-somatic-arc.md`: visual and technical plan for J1-J4
@@ -61,15 +71,27 @@ Open `http://127.0.0.1:4173`.
 npm run render:somatic
 npm run render:formless
 npm run render:induction
+npm run stills:somatic
+npm run stills:formless
+npm run stills:induction
 npm run board:somatic
 npm run board:formless
 npm run board:induction
+npm run refresh:somatic
+npm run refresh:formless
+npm run refresh:induction
 ```
 
 Defaults are `960x540` at `12fps` for quick previews. The render script also accepts:
 
 ```bash
 node scripts/render-entry.mjs somatic-arc 1920 1080 24
+```
+
+And the all-in-one refresh path is:
+
+```bash
+node scripts/refresh-entry.mjs somatic-arc 1920 1080 24
 ```
 
 ## Important Note Before Submission

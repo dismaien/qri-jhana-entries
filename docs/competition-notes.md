@@ -38,7 +38,20 @@ Paraphrased notes from the official call so the repo stays pointed at the real t
 - Use a coupled-oscillator visual language to align with the QRI framing without making the pieces look like diagrams.
 - Reserve the third entry for induction utility, since that category asks for usefulness rather than strict technical accuracy.
 
+## Research-Aligned Render Levers
+
+Based on QRI's own visualization writing, the most actionable knobs for this repo are:
+
+- temporal frequency as a proxy for arousal
+- symmetry / consonance as a proxy for pleasantness
+- soft vs harsh ADSR envelopes for how a pulse feels
+- tactile modalities such as waves, prickles, and broad pressure blooms
+- field-line behavior driven by weighted resonant modes rather than a literal spotlight metaphor
+
 ## Source Links
 
 - Official brief: [https://qri.org/blog/jhana-contest](https://qri.org/blog/jhana-contest)
 - Andrés announcement: [https://andrsgmezemilsson.substack.com/p/qris-jhana-visualization-competition](https://andrsgmezemilsson.substack.com/p/qris-jhana-visualization-competition)
+- Visualizing Tactile Sensations: [https://qri.org/blog/visualizing-tactile-sensations](https://qri.org/blog/visualizing-tactile-sensations)
+- Attention Field Lines: [https://qri.org/blog/attention-field-lines](https://qri.org/blog/attention-field-lines)
+- Nonlinear Wave Computing: [https://qri.org/blog/nonlinear-wave-computing](https://qri.org/blog/nonlinear-wave-computing)

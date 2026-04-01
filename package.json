@@ -10,9 +10,16 @@
     "render:somatic": "node scripts/render-entry.mjs somatic-arc",
     "render:formless": "node scripts/render-entry.mjs formless-mirror",
     "render:induction": "node scripts/render-entry.mjs induction-lantern",
+    "stills:somatic": "node scripts/extract-stills.mjs somatic-arc",
+    "stills:formless": "node scripts/extract-stills.mjs formless-mirror",
+    "stills:induction": "node scripts/extract-stills.mjs induction-lantern",
     "board:somatic": "node scripts/make-contact-sheet.mjs somatic-arc",
     "board:formless": "node scripts/make-contact-sheet.mjs formless-mirror",
-    "board:induction": "node scripts/make-contact-sheet.mjs induction-lantern"
+    "board:induction": "node scripts/make-contact-sheet.mjs induction-lantern",
+    "refresh:somatic": "node scripts/refresh-entry.mjs somatic-arc",
+    "refresh:formless": "node scripts/refresh-entry.mjs formless-mirror",
+    "refresh:induction": "node scripts/refresh-entry.mjs induction-lantern",
+    "refresh:all": "node scripts/refresh-entry.mjs all"
   },
   "devDependencies": {
     "puppeteer-core": "^24.10.2",
