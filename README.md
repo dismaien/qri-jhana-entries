@@ -67,6 +67,8 @@ npm run dev
 
 Open `http://127.0.0.1:4173`.
 
+For a clean review window without the control panel, use `?chrome=0`. Full export mode still uses `?mode=render`.
+
 ## Render Commands
 
 ```bash

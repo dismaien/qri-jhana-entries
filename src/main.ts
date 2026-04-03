@@ -13,12 +13,17 @@ function requireElement<T>(selector: string): T {
 }
 
 const params = new URLSearchParams(window.location.search);
-const renderMode = params.get("mode") === "render" || params.get("hideUi") === "1";
+const renderMode = params.get("mode") === "render";
+const chromeHidden = renderMode || params.get("hideUi") === "1" || params.get("chrome") === "0";
 const initialTime = Number(params.get("t") ?? "0");
 const initialPlaying = params.get("play") !== "0" && !renderMode;
 
 if (renderMode) {
   document.body.classList.add("render-mode");
+}
+
+if (chromeHidden) {
+  document.body.classList.add("chrome-hidden");
 }
 
 const canvas = requireElement<HTMLCanvasElement>("#stage");

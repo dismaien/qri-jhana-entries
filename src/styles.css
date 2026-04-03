@@ -216,12 +216,24 @@ body.render-mode .app-shell {
   grid-template-columns: 1fr;
 }
 
-body.render-mode .panel {
+body.chrome-hidden .app-shell {
+  grid-template-columns: 1fr;
+}
+
+body.chrome-hidden .panel {
   display: none;
+}
+
+body.chrome-hidden .stage-wrap {
+  padding: 1.2rem;
 }
 
 body.render-mode .stage-wrap {
   padding: 0;
+}
+
+body.chrome-hidden #stage {
+  width: min(1320px, 100%);
 }
 
 body.render-mode #stage {
