@@ -45,6 +45,14 @@ let currentTime = Number.isFinite(initialTime) ? initialTime : 0;
 let playing = !renderMode;
 let lastFrameAt = performance.now();
 
+function isEditableTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+
+  return Boolean(target.closest("input, select, textarea, button"));
+}
+
 function resizeCanvas(): void {
   const width = renderMode ? window.innerWidth : canvas.clientWidth;
   const height = renderMode ? window.innerHeight : canvas.clientHeight;
@@ -108,6 +116,21 @@ function drawAt(time: number): void {
   renderFrame(currentTime);
 }
 
+function togglePlayback(): void {
+  playing = !playing;
+  refreshUi();
+}
+
+function nudgeTime(delta: number): void {
+  drawAt(currentTime + delta);
+}
+
+function stepEntry(direction: 1 | -1): void {
+  const currentIndex = entries.findIndex((entry) => entry.id === currentEntry.id);
+  const nextIndex = (currentIndex + direction + entries.length) % entries.length;
+  setEntry(entries[nextIndex]?.id ?? currentEntry.id);
+}
+
 function tick(now: number): void {
   if (playing) {
     const delta = (now - lastFrameAt) / 1000;
@@ -129,13 +152,47 @@ scrubber.addEventListener("input", () => {
 });
 
 playToggle.addEventListener("click", () => {
-  playing = !playing;
-  refreshUi();
+  togglePlayback();
 });
 
 window.addEventListener("resize", () => {
   resizeCanvas();
   renderFrame(currentTime);
+});
+
+window.addEventListener("keydown", (event) => {
+  if (renderMode || isEditableTarget(event.target)) {
+    return;
+  }
+
+  if (event.code === "Space") {
+    event.preventDefault();
+    togglePlayback();
+    return;
+  }
+
+  if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    nudgeTime(event.shiftKey ? -6 : -2);
+    return;
+  }
+
+  if (event.key === "ArrowRight") {
+    event.preventDefault();
+    nudgeTime(event.shiftKey ? 6 : 2);
+    return;
+  }
+
+  if (event.key === "ArrowUp") {
+    event.preventDefault();
+    stepEntry(-1);
+    return;
+  }
+
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    stepEntry(1);
+  }
 });
 
 window.__JHANA__ = {
