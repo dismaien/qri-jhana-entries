@@ -44,6 +44,7 @@ Source links:
 - `scripts/render-entry.mjs`: headless Chrome + `ffmpeg` export path
 - `scripts/extract-stills.mjs`: pulls standard review stills from preview MP4s
 - `scripts/refresh-entry.mjs`: rerender + stills + board in one pass
+- `scripts/render-inventory.mjs`: quick report of which videos, stills, and boards exist
 - `scripts/make-contact-sheet.mjs`: turns stills into review boards
 - `scripts/blender_smoke.py`: minimal Blender smoke render
 - `docs/competition-notes.md`: distilled brief from the contest page
@@ -84,6 +85,7 @@ npm run board:induction
 npm run refresh:somatic
 npm run refresh:formless
 npm run refresh:induction
+npm run inventory:renders
 ```
 
 Defaults are `960x540` at `12fps` for quick previews. The render script also accepts:

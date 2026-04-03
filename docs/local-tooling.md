@@ -30,9 +30,12 @@ npm run board:induction
 npm run refresh:somatic
 npm run refresh:formless
 npm run refresh:induction
+npm run inventory:renders
 ```
 
 The `refresh:*` scripts are the fastest review loop because they rerender the MP4, extract the standard stills, and rebuild the contact sheet in one pass.
+
+`npm run inventory:renders` is useful right before packaging because it quickly shows which videos, stills, and boards are present for each entry.
 
 ## Blender Smoke Test
 
