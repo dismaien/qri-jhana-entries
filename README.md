@@ -51,6 +51,7 @@ Source links:
 - `docs/research-run-2026-04-01.md`: QRI-sourced design grammar for tactile and attention motifs
 - `docs/prompt-bank.md`: starter prompts for external image/video tools
 - `docs/local-tooling.md`: local install notes and useful commands
+- `docs/submission-checklist.md`: final pre-submit pass for videos and writeups
 - `docs/entry-01-somatic-arc.md`: visual and technical plan for J1-J4
 - `docs/entry-02-formless-mirror.md`: plan for J5-J8
 - `docs/entry-03-induction-lantern.md`: honorable-mention concept
