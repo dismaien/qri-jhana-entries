@@ -15,6 +15,7 @@ function requireElement<T>(selector: string): T {
 const params = new URLSearchParams(window.location.search);
 const renderMode = params.get("mode") === "render" || params.get("hideUi") === "1";
 const initialTime = Number(params.get("t") ?? "0");
+const initialPlaying = params.get("play") !== "0" && !renderMode;
 
 if (renderMode) {
   document.body.classList.add("render-mode");
@@ -42,8 +43,20 @@ entrySelect.innerHTML = entries
 
 let currentEntry: Entry = resolveEntry(params.get("entry"));
 let currentTime = Number.isFinite(initialTime) ? initialTime : 0;
-let playing = !renderMode;
+let playing = initialPlaying;
 let lastFrameAt = performance.now();
+
+function writeUrlState(): void {
+  if (renderMode) {
+    return;
+  }
+
+  const nextParams = new URLSearchParams(window.location.search);
+  nextParams.set("entry", currentEntry.id);
+  nextParams.set("t", currentTime.toFixed(1));
+  nextParams.set("play", playing ? "1" : "0");
+  history.replaceState({}, "", `${window.location.pathname}?${nextParams.toString()}`);
+}
 
 function isEditableTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) {
@@ -104,10 +117,7 @@ function setEntry(id: string): void {
   currentTime = Math.min(currentTime, currentEntry.duration);
   refreshUi();
   renderFrame(currentTime);
-
-  const nextParams = new URLSearchParams(window.location.search);
-  nextParams.set("entry", currentEntry.id);
-  history.replaceState({}, "", `${window.location.pathname}?${nextParams.toString()}`);
+  writeUrlState();
 }
 
 function drawAt(time: number): void {
@@ -119,6 +129,7 @@ function drawAt(time: number): void {
 function togglePlayback(): void {
   playing = !playing;
   refreshUi();
+  writeUrlState();
 }
 
 function nudgeTime(delta: number): void {
@@ -149,6 +160,7 @@ entrySelect.addEventListener("change", () => {
 scrubber.addEventListener("input", () => {
   const next = (Number(scrubber.value) / 1000) * currentEntry.duration;
   drawAt(next);
+  writeUrlState();
 });
 
 playToggle.addEventListener("click", () => {
@@ -174,12 +186,14 @@ window.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") {
     event.preventDefault();
     nudgeTime(event.shiftKey ? -6 : -2);
+    writeUrlState();
     return;
   }
 
   if (event.key === "ArrowRight") {
     event.preventDefault();
     nudgeTime(event.shiftKey ? 6 : 2);
+    writeUrlState();
     return;
   }
 
@@ -216,4 +230,5 @@ window.__JHANA__ = {
 resizeCanvas();
 refreshUi();
 renderFrame(currentTime);
+writeUrlState();
 requestAnimationFrame(tick);
