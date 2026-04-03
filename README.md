@@ -21,6 +21,7 @@ The app is a deterministic canvas sketchbook so the same scenes can be explored 
 
 - `docs/research-run-2026-03-29.md`: public-entry sweep plus the membrane/firefly direction
 - `docs/research-run-2026-04-01.md`: QRI-source design grammar focused on tactile modalities, resonance, ADSR, and attention field lines
+- `docs/research-run-2026-04-03.md`: follow-up memo on tactile specificity, field-line structure, and next visual upgrades
 - `scripts/extract-stills.mjs`: reproducible still extraction from the latest preview MP4s
 - `scripts/refresh-entry.mjs`: one-command rerender + still extraction + board refresh
 
@@ -52,6 +53,7 @@ Source links:
 - `docs/competition-notes.md`: distilled brief from the contest page
 - `docs/research-run-2026-03-25.md`: broad tool/workflow research pass
 - `docs/research-run-2026-04-01.md`: QRI-sourced design grammar for tactile and attention motifs
+- `docs/research-run-2026-04-03.md`: next-step memo for tactile specificity and field-line structure
 - `docs/prompt-bank.md`: starter prompts for external image/video tools
 - `docs/local-tooling.md`: local install notes and useful commands
 - `docs/submission-checklist.md`: final pre-submit pass for videos and writeups
