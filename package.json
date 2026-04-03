@@ -20,7 +20,8 @@
     "refresh:formless": "node scripts/refresh-entry.mjs formless-mirror",
     "refresh:induction": "node scripts/refresh-entry.mjs induction-lantern",
     "refresh:all": "node scripts/refresh-entry.mjs all",
-    "inventory:renders": "node scripts/render-inventory.mjs"
+    "inventory:renders": "node scripts/render-inventory.mjs",
+    "package:submissions": "node scripts/package-submission.mjs all"
   },
   "devDependencies": {
     "puppeteer-core": "^24.10.2",

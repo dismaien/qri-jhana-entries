@@ -4,3 +4,4 @@ dist
 *.log
 renders/*
 !renders/.gitkeep
+submission-package/

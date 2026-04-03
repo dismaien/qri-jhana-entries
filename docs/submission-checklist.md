@@ -41,7 +41,15 @@ npm run build
 npm run refresh:somatic
 npm run refresh:formless
 npm run refresh:induction
+npm run inventory:renders
+npm run package:submissions
 ```
+
+## Packaging Pass
+
+- confirm each entry has the expected MP4, stills, and board before packaging
+- gather the latest submission-ready files into `submission-package/`
+- open the packaged folders and check that each writeup matches the video beside it
 
 ## Final Human Review
 
