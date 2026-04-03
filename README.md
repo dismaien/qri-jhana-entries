@@ -46,6 +46,7 @@ Source links:
 - `scripts/refresh-entry.mjs`: rerender + stills + board in one pass
 - `scripts/render-inventory.mjs`: quick report of which videos, stills, and boards exist
 - `scripts/package-submission.mjs`: assembles per-entry submission folders from the latest assets
+- `scripts/review-links.mjs`: prints paused clean-preview URLs for the standard review frames
 - `scripts/make-contact-sheet.mjs`: turns stills into review boards
 - `scripts/blender_smoke.py`: minimal Blender smoke render
 - `docs/competition-notes.md`: distilled brief from the contest page
@@ -88,6 +89,7 @@ npm run refresh:formless
 npm run refresh:induction
 npm run inventory:renders
 npm run package:submissions
+npm run links:review
 ```
 
 Defaults are `960x540` at `12fps` for quick previews. The render script also accepts:

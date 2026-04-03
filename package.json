@@ -21,7 +21,8 @@
     "refresh:induction": "node scripts/refresh-entry.mjs induction-lantern",
     "refresh:all": "node scripts/refresh-entry.mjs all",
     "inventory:renders": "node scripts/render-inventory.mjs",
-    "package:submissions": "node scripts/package-submission.mjs all"
+    "package:submissions": "node scripts/package-submission.mjs all",
+    "links:review": "node scripts/review-links.mjs"
   },
   "devDependencies": {
     "puppeteer-core": "^24.10.2",
