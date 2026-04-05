@@ -21,15 +21,19 @@ npm run build
 npm run render:somatic
 npm run render:formless
 npm run render:induction
+npm run render:atlas
 npm run stills:somatic
 npm run stills:formless
 npm run stills:induction
+npm run stills:atlas
 npm run board:somatic
 npm run board:formless
 npm run board:induction
+npm run board:atlas
 npm run refresh:somatic
 npm run refresh:formless
 npm run refresh:induction
+npm run refresh:atlas
 npm run inventory:renders
 npm run links:review
 ```

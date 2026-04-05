@@ -24,6 +24,15 @@ const targets = [
   {
     id: "induction-lantern",
     frames: [{ label: "Mid-sequence", time: 9 }]
+  },
+  {
+    id: "meditation-atlas",
+    frames: [
+      { label: "Grounding Breath", time: 3 },
+      { label: "Body Scan River", time: 9 },
+      { label: "Metta Hearth", time: 15 },
+      { label: "Open Sky", time: 21 }
+    ]
   }
 ];
 

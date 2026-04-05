@@ -28,6 +28,16 @@ const targets = [
     id: "induction-lantern",
     stills: ["induction-lantern-mid.png"],
     board: "induction-lantern-board.png"
+  },
+  {
+    id: "meditation-atlas",
+    stills: [
+      "meditation-atlas-breath.png",
+      "meditation-atlas-scan.png",
+      "meditation-atlas-metta.png",
+      "meditation-atlas-open-sky.png"
+    ],
+    board: "meditation-atlas-board.png"
   }
 ];
 

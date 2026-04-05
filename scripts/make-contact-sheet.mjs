@@ -38,6 +38,18 @@ const sheetConfig = {
     files: ["induction-lantern-mid.png"],
     labels: ["Midpoint"],
     columns: 1
+  },
+  "meditation-atlas": {
+    title: "Study 4: Meditation Atlas",
+    subtitle: "General meditation motif board",
+    files: [
+      "meditation-atlas-breath.png",
+      "meditation-atlas-scan.png",
+      "meditation-atlas-metta.png",
+      "meditation-atlas-open-sky.png"
+    ],
+    labels: ["Grounding Breath", "Body Scan River", "Metta Hearth", "Open Sky"],
+    columns: 2
   }
 };
 

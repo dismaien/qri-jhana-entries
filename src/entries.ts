@@ -65,6 +65,7 @@ const spaceNodes: Node[] = [
 const SOMATIC_DURATION = 24;
 const FORMLESS_DURATION = 24;
 const INDUCTION_DURATION = 18;
+const ATLAS_DURATION = 24;
 
 const somaticTimeline: ProfileSegment[] = [
   {
@@ -379,6 +380,121 @@ const inductionTimeline: ProfileSegment[] = [
       beam: 0.62,
       symmetry: 0.86,
       stillness: 0.34
+    }
+  }
+];
+
+const atlasTimeline: ProfileSegment[] = [
+  {
+    label: "Grounding Breath",
+    start: 0,
+    end: 6,
+    note: "A calm breath anchor gathers around the face, throat, and upper chest without forcing the rest of experience away.",
+    profile: {
+      bgTop: [214, 44, 10],
+      bgBottom: [193, 42, 12],
+      glow: [188, 82, 72],
+      accent: [50, 76, 74],
+      line: [194, 68, 86],
+      body: [13, 17, 16],
+      nodeWeights: [0.72, 0.94, 0.88, 0.42, 0.2, 0.18, 0.18, 0.14],
+      coherence: 0.62,
+      turbulence: 0.12,
+      intensity: 0.34,
+      pulseRate: 1.25,
+      lineLength: 0.72,
+      halo: 0.52,
+      spaciousness: 0.22,
+      reflexivity: 0.08,
+      emptiness: 0.04,
+      thinness: 0.08,
+      beam: 0.72,
+      symmetry: 0.84,
+      stillness: 0.54
+    }
+  },
+  {
+    label: "Body Scan River",
+    start: 6,
+    end: 12,
+    note: "Attention sweeps gently through the body as if sensation were being combed into continuity instead of poked point by point.",
+    profile: {
+      bgTop: [206, 38, 10],
+      bgBottom: [168, 44, 13],
+      glow: [168, 70, 68],
+      accent: [38, 82, 70],
+      line: [175, 62, 84],
+      body: [15, 17, 16],
+      nodeWeights: [0.56, 0.58, 0.76, 0.92, 1.02, 0.62, 0.62, 0.88],
+      coherence: 0.7,
+      turbulence: 0.14,
+      intensity: 0.42,
+      pulseRate: 1.7,
+      lineLength: 0.86,
+      halo: 0.68,
+      spaciousness: 0.28,
+      reflexivity: 0.1,
+      emptiness: 0.03,
+      thinness: 0.1,
+      beam: 0.26,
+      symmetry: 0.88,
+      stillness: 0.48
+    }
+  },
+  {
+    label: "Metta Hearth",
+    start: 12,
+    end: 18,
+    note: "Warmth accumulates near the heart and then radiates outward until the whole body feels gently inhabited.",
+    profile: {
+      bgTop: [232, 30, 11],
+      bgBottom: [8, 58, 13],
+      glow: [34, 96, 72],
+      accent: [349, 86, 72],
+      line: [26, 88, 86],
+      body: [18, 18, 16],
+      nodeWeights: [0.44, 0.46, 1.08, 0.94, 0.62, 0.34, 0.34, 0.28],
+      coherence: 0.76,
+      turbulence: 0.12,
+      intensity: 0.56,
+      pulseRate: 2.35,
+      lineLength: 0.98,
+      halo: 0.88,
+      spaciousness: 0.32,
+      reflexivity: 0.1,
+      emptiness: 0.02,
+      thinness: 0.08,
+      beam: 0.18,
+      symmetry: 0.82,
+      stillness: 0.4
+    }
+  },
+  {
+    label: "Open Sky",
+    start: 18,
+    end: 24,
+    note: "The body reference becomes optional and awareness relaxes into an unowned, wide, lightly shimmering field.",
+    profile: {
+      bgTop: [214, 34, 9],
+      bgBottom: [254, 28, 10],
+      glow: [200, 62, 72],
+      accent: [171, 60, 78],
+      line: [208, 56, 88],
+      body: [0, 0, 0],
+      nodeWeights: [0.58, 0.56, 0.64, 0.64, 0.7, 0.6, 0.6, 0.48],
+      coherence: 0.84,
+      turbulence: 0.08,
+      intensity: 0.36,
+      pulseRate: 1.2,
+      lineLength: 1.06,
+      halo: 0.54,
+      spaciousness: 0.94,
+      reflexivity: 0.18,
+      emptiness: 0.24,
+      thinness: 0.34,
+      beam: 0.02,
+      symmetry: 0.86,
+      stillness: 0.84
     }
   }
 ];
@@ -987,6 +1103,141 @@ function drawInductionGuide(
   ctx.restore();
 }
 
+function drawBreathContours(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  t: number,
+  profile: Profile
+): void {
+  const breath = 0.5 + 0.5 * Math.sin(t * Math.PI * 0.5);
+  const anchors = [
+    { x: 0.5, y: 0.16, scale: 0.8 },
+    { x: 0.5, y: 0.3, scale: 1.05 }
+  ];
+
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+  ctx.strokeStyle = hsla(profile.line, 0.12 + breath * 0.1);
+  ctx.lineWidth = 1.8;
+
+  anchors.forEach((anchor, index) => {
+    const base = Math.min(width, height) * 0.04 * anchor.scale;
+
+    for (let ring = 0; ring < 3; ring += 1) {
+      const radius = base + ring * 18 + breath * 10 + index * 4;
+      ctx.beginPath();
+      ctx.ellipse(
+        width * anchor.x,
+        height * anchor.y,
+        radius * 1.15,
+        radius * 0.72,
+        0,
+        0,
+        Math.PI * 2
+      );
+      ctx.stroke();
+    }
+  });
+
+  ctx.restore();
+}
+
+function drawBodyScanBands(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  t: number,
+  profile: Profile
+): void {
+  const silhouette = bodyPath(width, height);
+  const sweep = (0.14 + (t * 0.085) % 0.92) * height;
+
+  ctx.save();
+  ctx.clip(silhouette);
+  ctx.globalCompositeOperation = "screen";
+
+  for (let i = 0; i < 5; i += 1) {
+    const y = sweep - i * height * 0.16;
+    const bandHeight = height * (0.08 + i * 0.012);
+    const gradient = ctx.createLinearGradient(0, y - bandHeight, 0, y + bandHeight);
+    const bandColor = mixHsl(profile.accent, profile.glow, i * 0.18);
+
+    gradient.addColorStop(0, hsla(bandColor, 0));
+    gradient.addColorStop(0.5, hsla(bandColor, 0.08 + profile.intensity * 0.1 - i * 0.01));
+    gradient.addColorStop(1, hsla(bandColor, 0));
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(width * 0.18, y - bandHeight, width * 0.64, bandHeight * 2);
+  }
+
+  ctx.restore();
+}
+
+function drawHeartBloom(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  t: number,
+  profile: Profile
+): void {
+  const breath = 0.5 + 0.5 * Math.sin(t * Math.PI * 0.78);
+  const x = width * 0.5;
+  const y = height * 0.39;
+  const radius = Math.min(width, height) * (0.08 + breath * 0.04);
+
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+
+  const heartGlow = ctx.createRadialGradient(x, y, 0, x, y, radius * 3.8);
+  heartGlow.addColorStop(0, hsla(profile.accent, 0.22 + breath * 0.12));
+  heartGlow.addColorStop(0.45, hsla(profile.glow, 0.12));
+  heartGlow.addColorStop(1, hsla(profile.glow, 0));
+  ctx.fillStyle = heartGlow;
+  ctx.fillRect(x - radius * 4, y - radius * 4, radius * 8, radius * 8);
+
+  ctx.strokeStyle = hsla(mixHsl(profile.accent, profile.line, 0.36), 0.16 + breath * 0.08);
+  ctx.lineWidth = 1.5;
+  for (let i = 0; i < 10; i += 1) {
+    const angle = (i / 10) * Math.PI * 2 + t * 0.08;
+    const outer = radius * (2.1 + (i % 2) * 0.55 + breath * 0.35);
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + Math.cos(angle) * outer, y + Math.sin(angle) * outer * 0.9);
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+function drawOpenVeil(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  t: number,
+  profile: Profile
+): void {
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+
+  for (let i = 0; i < 9; i += 1) {
+    const x = width * (0.1 + i * 0.1);
+    const y = height * (0.22 + Math.sin(t * 0.08 + i * 0.9) * 0.06 + i * 0.04);
+    const radiusX = width * (0.16 + (i % 3) * 0.05);
+    const radiusY = height * (0.06 + (i % 2) * 0.03);
+    const gradient = ctx.createRadialGradient(x, y, 0, x, y, radiusX);
+    const veilColor = mixHsl(profile.glow, profile.accent, i % 2 === 0 ? 0.24 : 0.58);
+    gradient.addColorStop(0, hsla(veilColor, 0.05 + profile.spaciousness * 0.04));
+    gradient.addColorStop(1, hsla(veilColor, 0));
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.ellipse(x, y, radiusX, radiusY, i * 0.14, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
 function drawVignette(ctx: CanvasRenderingContext2D, width: number, height: number, profile: Profile, t: number): void {
   const gradient = ctx.createRadialGradient(width * 0.5, height * 0.46, Math.min(width, height) * 0.2, width * 0.5, height * 0.5, Math.min(width, height) * 0.72);
   gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
@@ -1040,6 +1291,48 @@ function renderTimeline(
   drawVignette(ctx, env.width, env.height, profile, time);
 }
 
+function renderMeditationAtlas(ctx: CanvasRenderingContext2D, env: RenderEnv): void {
+  const time = clamp(env.t, 0, atlasTimeline[atlasTimeline.length - 1].end);
+  const profile = interpolateTimeline(atlasTimeline, time);
+  const segment = getSegmentAtTime(atlasTimeline, time);
+  const showBody = time < 18;
+
+  drawBackdrop(ctx, env.width, env.height, profile, time);
+
+  if (showBody) {
+    drawSomaticShell(ctx, env.width, env.height, profile);
+    drawOrganicMembrane(ctx, env.width, env.height, time, profile);
+  } else {
+    drawFormlessStructures(ctx, env.width, env.height, time, profile);
+  }
+
+  drawFieldMesh(ctx, env.width, env.height, time, profile, showBody);
+  drawFlowLines(ctx, env.width, env.height, time, profile, showBody);
+
+  if (segment.label === "Grounding Breath") {
+    drawBreathContours(ctx, env.width, env.height, time, profile);
+  }
+
+  if (segment.label === "Body Scan River") {
+    drawBodyScanBands(ctx, env.width, env.height, time, profile);
+  }
+
+  if (segment.label === "Metta Hearth") {
+    drawHeartBloom(ctx, env.width, env.height, time, profile);
+  }
+
+  if (segment.label === "Open Sky") {
+    drawOpenVeil(ctx, env.width, env.height, time, profile);
+  }
+
+  if (showBody) {
+    drawSyncedFireflies(ctx, env.width, env.height, time, profile);
+  }
+
+  drawNodes(ctx, env.width, env.height, profile, showBody);
+  drawVignette(ctx, env.width, env.height, profile, time);
+}
+
 export const entries: Entry[] = [
   {
     id: "somatic-arc",
@@ -1070,6 +1363,16 @@ export const entries: Entry[] = [
     tags: "induction aid / honorable mention candidate (0:00-0:18)",
     segments: inductionTimeline,
     render: (ctx, env) => renderTimeline(ctx, env, inductionTimeline, true, "induction")
+  },
+  {
+    id: "meditation-atlas",
+    title: "Study 4: Meditation Atlas",
+    summary:
+      "A general-purpose meditation sketchbook: grounding breath, body scan, metta warmth, and open awareness as reusable visual motifs rather than contest-locked claims.",
+    duration: ATLAS_DURATION,
+    tags: "grounding breath (0:00-0:06), body scan river (0:06-0:12), metta hearth (0:12-0:18), open sky (0:18-0:24)",
+    segments: atlasTimeline,
+    render: renderMeditationAtlas
   }
 ];
 

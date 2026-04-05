@@ -8,6 +8,10 @@ This repo is built around three candidate submissions:
 - `Entry 2: Formless Mirror` for J5-J8, where the image stops behaving like a body and starts behaving like a field.
 - `Entry 3: Induction Lantern`, an honorable-mention attempt for the induction-aid category.
 
+It also now includes:
+
+- `Study 4: Meditation Atlas`, a more general meditation sketchbook built from reusable motifs for breath, body scan, metta, and open awareness.
+
 The app is a deterministic canvas sketchbook so the same scenes can be explored interactively and exported to MP4.
 
 ## New In This Pass
@@ -61,6 +65,8 @@ Source links:
 - `docs/entry-01-somatic-arc.md`: visual and technical plan for J1-J4
 - `docs/entry-02-formless-mirror.md`: plan for J5-J8
 - `docs/entry-03-induction-lantern.md`: honorable-mention concept
+- `docs/entry-04-meditation-atlas.md`: creative sketchbook plan for non-contest studies
+- `docs/creative-motif-kit.md`: quick map of reusable visual motifs
 - `docs/submission-drafts/`: draft writeups to personalize before submitting
 
 ## Local Use
@@ -80,15 +86,19 @@ For a clean review window without the control panel, use `?chrome=0`. Full expor
 npm run render:somatic
 npm run render:formless
 npm run render:induction
+npm run render:atlas
 npm run stills:somatic
 npm run stills:formless
 npm run stills:induction
+npm run stills:atlas
 npm run board:somatic
 npm run board:formless
 npm run board:induction
+npm run board:atlas
 npm run refresh:somatic
 npm run refresh:formless
 npm run refresh:induction
+npm run refresh:atlas
 npm run inventory:renders
 npm run package:submissions
 npm run links:review

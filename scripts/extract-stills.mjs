@@ -16,7 +16,13 @@ const stillConfig = {
     { time: 15, file: "formless-mirror-j7.png" },
     { time: 21, file: "formless-mirror-j8.png" }
   ],
-  "induction-lantern": [{ time: 9, file: "induction-lantern-mid.png" }]
+  "induction-lantern": [{ time: 9, file: "induction-lantern-mid.png" }],
+  "meditation-atlas": [
+    { time: 3, file: "meditation-atlas-breath.png" },
+    { time: 9, file: "meditation-atlas-scan.png" },
+    { time: 15, file: "meditation-atlas-metta.png" },
+    { time: 21, file: "meditation-atlas-open-sky.png" }
+  ]
 };
 
 const entryArg = process.argv[2] ?? "somatic-arc";
