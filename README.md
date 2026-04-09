@@ -11,6 +11,7 @@ This repo is built around three candidate submissions:
 It also now includes:
 
 - `Study 4: Meditation Atlas`, a more general meditation sketchbook built from reusable motifs for breath, body scan, metta, and open awareness.
+- `Lab Mode`, a live remix surface for trying palette and motion variants without editing code.
 
 The app is a deterministic canvas sketchbook so the same scenes can be explored interactively and exported to MP4.
 
@@ -60,6 +61,7 @@ Source links:
 - `docs/research-run-2026-04-03.md`: next-step memo for tactile specificity and field-line structure
 - `docs/prompt-bank.md`: starter prompts for external image/video tools
 - `docs/local-tooling.md`: local install notes and useful commands
+- `docs/lab-mode.md`: live tweak mode, presets, and remix knobs
 - `docs/submission-checklist.md`: final pre-submit pass for videos and writeups
 - `docs/judging-cues.md`: quick phenomenology checks for reviewing each segment
 - `docs/entry-01-somatic-arc.md`: visual and technical plan for J1-J4
@@ -79,6 +81,12 @@ npm run dev
 Open `http://127.0.0.1:4173`.
 
 For a clean review window without the control panel, use `?chrome=0`. Full export mode still uses `?mode=render`.
+
+For live remix controls, add `?lab=1`, for example:
+
+```bash
+http://127.0.0.1:4173/?entry=meditation-atlas&lab=1
+```
 
 ## Render Commands
 

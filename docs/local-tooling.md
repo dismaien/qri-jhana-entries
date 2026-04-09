@@ -44,6 +44,8 @@ The `refresh:*` scripts are the fastest review loop because they rerender the MP
 
 `npm run links:review` prints paused clean-preview URLs for the standard frame checks, which is handy when comparing notes across entries.
 
+For live creative tweaking in the browser, open an entry with `?lab=1`, for example `http://127.0.0.1:4173/?entry=meditation-atlas&lab=1`.
+
 ## Blender Smoke Test
 
 Once Blender is available in the shell, you can render a proof image with:

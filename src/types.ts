@@ -1,5 +1,18 @@
 export type Hsl = [h: number, s: number, l: number];
 
+export type LabPresetId = "neutral" | "settling" | "warmth" | "vastness" | "electric";
+
+export type LabState = {
+  preset: LabPresetId;
+  hueShift: number;
+  energy: number;
+  turbulence: number;
+  spaciousness: number;
+  tempo: number;
+  flow: number;
+  overlay: number;
+};
+
 export type Segment = {
   label: string;
   start: number;
@@ -12,6 +25,7 @@ export type RenderEnv = {
   width: number;
   height: number;
   dpr: number;
+  lab: LabState;
 };
 
 export type Entry = {
@@ -27,8 +41,10 @@ export type Entry = {
 export type RenderApi = {
   renderAt: (t: number) => void;
   setEntry: (id: string) => void;
+  getLabState: () => LabState;
   getMeta: () => { id: string; title: string; duration: number };
   listEntries: () => Array<{ id: string; title: string; duration: number }>;
+  listLabPresets: () => Array<{ id: LabPresetId; label: string }>;
 };
 
 declare global {

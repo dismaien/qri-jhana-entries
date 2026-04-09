@@ -161,6 +161,17 @@ input[type="range"] {
   line-height: 1.55;
 }
 
+.lab-hint {
+  margin: 0;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(246, 178, 79, 0.14);
+  border-radius: 14px;
+  color: rgba(231, 221, 198, 0.74);
+  background: rgba(255, 211, 128, 0.04);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
 .meta-block {
   margin-top: 1.35rem;
 }
@@ -243,6 +254,27 @@ body.render-mode #stage {
   border: 0;
   border-radius: 0;
   box-shadow: none;
+}
+
+.lil-gui.root {
+  --background-color: rgba(12, 12, 18, 0.9);
+  --widget-color: rgba(30, 25, 27, 0.92);
+  --hover-color: rgba(45, 35, 31, 0.96);
+  --focus-color: rgba(246, 178, 79, 0.25);
+  --number-color: #f7d28d;
+  --string-color: #f1efe7;
+  --title-background-color: rgba(246, 178, 79, 0.12);
+  --title-text-color: #f7d28d;
+  --text-color: #e7ddc6;
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 20;
+}
+
+body.chrome-hidden .lil-gui.root {
+  top: 16px;
+  right: 16px;
 }
 
 @media (max-width: 980px) {

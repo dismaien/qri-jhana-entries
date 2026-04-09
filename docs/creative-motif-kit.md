@@ -29,3 +29,17 @@ Quick map of the new reusable pieces in the renderer.
 - a grief or tenderness piece based on `drawHeartBloom(...)`
 - a secular breath-coherence visual with slower pacing
 - a nondual / open-awareness study built from `drawOpenVeil(...)` plus lighter field lines
+
+## Lab Mode Pairings
+
+- `Settling` + `drawBreathContours(...)`
+  Good for gentler shamatha and soft breath following.
+
+- `Warmth` + `drawHeartBloom(...)`
+  Good for metta, gratitude, or devotional pieces.
+
+- `Vastness` + `drawOpenVeil(...)`
+  Good for open-awareness, sky-like, or nondual studies.
+
+- `Electric` + body-based entries
+  Good for sharper concentration ramps or energized somatic work.

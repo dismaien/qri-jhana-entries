@@ -1,5 +1,5 @@
 import { clamp, fbm, hash2, hsla, mix, mixHsl, smoothstep } from "./math";
-import type { Entry, Hsl, RenderEnv, Segment } from "./types";
+import type { Entry, Hsl, LabState, RenderEnv, Segment } from "./types";
 
 type Profile = {
   bgTop: Hsl;
@@ -521,6 +521,33 @@ function mixProfile(a: Profile, b: Profile, t: number): Profile {
     beam: mix(a.beam, b.beam, t),
     symmetry: mix(a.symmetry, b.symmetry, t),
     stillness: mix(a.stillness, b.stillness, t)
+  };
+}
+
+function shiftHue(color: Hsl, amount: number): Hsl {
+  const hue = (((color[0] + amount) % 360) + 360) % 360;
+  return [hue, color[1], color[2]];
+}
+
+function applyLabProfile(profile: Profile, lab: LabState): Profile {
+  return {
+    ...profile,
+    bgTop: shiftHue(profile.bgTop, lab.hueShift),
+    bgBottom: shiftHue(profile.bgBottom, lab.hueShift * 0.8),
+    glow: shiftHue(profile.glow, lab.hueShift),
+    accent: shiftHue(profile.accent, lab.hueShift * 1.2),
+    line: shiftHue(profile.line, lab.hueShift * 0.9),
+    body: profile.body[1] === 0 && profile.body[2] === 0 ? profile.body : shiftHue(profile.body, lab.hueShift * 0.4),
+    intensity: clamp(profile.intensity * lab.energy, 0, 1.5),
+    turbulence: clamp(profile.turbulence * lab.turbulence, 0, 1.6),
+    pulseRate: Math.max(0.2, profile.pulseRate * lab.tempo),
+    lineLength: clamp(profile.lineLength * lab.flow, 0.3, 1.9),
+    halo: clamp(profile.halo * mix(0.8, 1.3, (lab.overlay - 0.2) / 1.6), 0, 1.5),
+    spaciousness: clamp(profile.spaciousness * lab.spaciousness, 0, 1.5),
+    reflexivity: clamp(profile.reflexivity * mix(0.86, 1.2, (lab.spaciousness - 0.45) / 1.35), 0, 1.4),
+    beam: clamp(profile.beam * mix(0.75, 1.2, (lab.overlay - 0.2) / 1.6), 0, 1.2),
+    symmetry: clamp(profile.symmetry * mix(0.92, 1.08, (lab.flow - 0.45) / 1.35), 0, 1),
+    stillness: clamp(profile.stillness * mix(1.08, 0.82, (lab.energy - 0.45) / 1.35), 0, 1)
   };
 }
 
@@ -1108,7 +1135,8 @@ function drawBreathContours(
   width: number,
   height: number,
   t: number,
-  profile: Profile
+  profile: Profile,
+  overlay = 1
 ): void {
   const breath = 0.5 + 0.5 * Math.sin(t * Math.PI * 0.5);
   const anchors = [
@@ -1118,8 +1146,8 @@ function drawBreathContours(
 
   ctx.save();
   ctx.globalCompositeOperation = "screen";
-  ctx.strokeStyle = hsla(profile.line, 0.12 + breath * 0.1);
-  ctx.lineWidth = 1.8;
+  ctx.strokeStyle = hsla(profile.line, (0.12 + breath * 0.1) * overlay);
+  ctx.lineWidth = 1.6 + overlay * 0.4;
 
   anchors.forEach((anchor, index) => {
     const base = Math.min(width, height) * 0.04 * anchor.scale;
@@ -1148,7 +1176,8 @@ function drawBodyScanBands(
   width: number,
   height: number,
   t: number,
-  profile: Profile
+  profile: Profile,
+  overlay = 1
 ): void {
   const silhouette = bodyPath(width, height);
   const sweep = (0.14 + (t * 0.085) % 0.92) * height;
@@ -1164,7 +1193,7 @@ function drawBodyScanBands(
     const bandColor = mixHsl(profile.accent, profile.glow, i * 0.18);
 
     gradient.addColorStop(0, hsla(bandColor, 0));
-    gradient.addColorStop(0.5, hsla(bandColor, 0.08 + profile.intensity * 0.1 - i * 0.01));
+    gradient.addColorStop(0.5, hsla(bandColor, (0.08 + profile.intensity * 0.1 - i * 0.01) * overlay));
     gradient.addColorStop(1, hsla(bandColor, 0));
 
     ctx.fillStyle = gradient;
@@ -1179,7 +1208,8 @@ function drawHeartBloom(
   width: number,
   height: number,
   t: number,
-  profile: Profile
+  profile: Profile,
+  overlay = 1
 ): void {
   const breath = 0.5 + 0.5 * Math.sin(t * Math.PI * 0.78);
   const x = width * 0.5;
@@ -1190,14 +1220,14 @@ function drawHeartBloom(
   ctx.globalCompositeOperation = "screen";
 
   const heartGlow = ctx.createRadialGradient(x, y, 0, x, y, radius * 3.8);
-  heartGlow.addColorStop(0, hsla(profile.accent, 0.22 + breath * 0.12));
-  heartGlow.addColorStop(0.45, hsla(profile.glow, 0.12));
+  heartGlow.addColorStop(0, hsla(profile.accent, (0.22 + breath * 0.12) * overlay));
+  heartGlow.addColorStop(0.45, hsla(profile.glow, 0.12 * overlay));
   heartGlow.addColorStop(1, hsla(profile.glow, 0));
   ctx.fillStyle = heartGlow;
   ctx.fillRect(x - radius * 4, y - radius * 4, radius * 8, radius * 8);
 
-  ctx.strokeStyle = hsla(mixHsl(profile.accent, profile.line, 0.36), 0.16 + breath * 0.08);
-  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = hsla(mixHsl(profile.accent, profile.line, 0.36), (0.16 + breath * 0.08) * overlay);
+  ctx.lineWidth = 1.2 + overlay * 0.5;
   for (let i = 0; i < 10; i += 1) {
     const angle = (i / 10) * Math.PI * 2 + t * 0.08;
     const outer = radius * (2.1 + (i % 2) * 0.55 + breath * 0.35);
@@ -1215,7 +1245,8 @@ function drawOpenVeil(
   width: number,
   height: number,
   t: number,
-  profile: Profile
+  profile: Profile,
+  overlay = 1
 ): void {
   ctx.save();
   ctx.globalCompositeOperation = "screen";
@@ -1227,7 +1258,7 @@ function drawOpenVeil(
     const radiusY = height * (0.06 + (i % 2) * 0.03);
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, radiusX);
     const veilColor = mixHsl(profile.glow, profile.accent, i % 2 === 0 ? 0.24 : 0.58);
-    gradient.addColorStop(0, hsla(veilColor, 0.05 + profile.spaciousness * 0.04));
+    gradient.addColorStop(0, hsla(veilColor, (0.05 + profile.spaciousness * 0.04) * overlay));
     gradient.addColorStop(1, hsla(veilColor, 0));
     ctx.fillStyle = gradient;
     ctx.beginPath();
@@ -1266,7 +1297,7 @@ function renderTimeline(
   mode: "competition" | "induction"
 ): void {
   const time = clamp(env.t, 0, timeline[timeline.length - 1].end);
-  const profile = interpolateTimeline(timeline, time);
+  const profile = applyLabProfile(interpolateTimeline(timeline, time), env.lab);
 
   drawBackdrop(ctx, env.width, env.height, profile, time);
 
@@ -1293,9 +1324,10 @@ function renderTimeline(
 
 function renderMeditationAtlas(ctx: CanvasRenderingContext2D, env: RenderEnv): void {
   const time = clamp(env.t, 0, atlasTimeline[atlasTimeline.length - 1].end);
-  const profile = interpolateTimeline(atlasTimeline, time);
+  const profile = applyLabProfile(interpolateTimeline(atlasTimeline, time), env.lab);
   const segment = getSegmentAtTime(atlasTimeline, time);
   const showBody = time < 18;
+  const overlay = env.lab.overlay;
 
   drawBackdrop(ctx, env.width, env.height, profile, time);
 
@@ -1310,19 +1342,19 @@ function renderMeditationAtlas(ctx: CanvasRenderingContext2D, env: RenderEnv): v
   drawFlowLines(ctx, env.width, env.height, time, profile, showBody);
 
   if (segment.label === "Grounding Breath") {
-    drawBreathContours(ctx, env.width, env.height, time, profile);
+    drawBreathContours(ctx, env.width, env.height, time, profile, overlay);
   }
 
   if (segment.label === "Body Scan River") {
-    drawBodyScanBands(ctx, env.width, env.height, time, profile);
+    drawBodyScanBands(ctx, env.width, env.height, time, profile, overlay);
   }
 
   if (segment.label === "Metta Hearth") {
-    drawHeartBloom(ctx, env.width, env.height, time, profile);
+    drawHeartBloom(ctx, env.width, env.height, time, profile, overlay);
   }
 
   if (segment.label === "Open Sky") {
-    drawOpenVeil(ctx, env.width, env.height, time, profile);
+    drawOpenVeil(ctx, env.width, env.height, time, profile, overlay);
   }
 
   if (showBody) {
