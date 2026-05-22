@@ -564,6 +564,85 @@ function interpolateTimeline(timeline: ProfileSegment[], t: number): Profile {
   return mixProfile(current.profile, next.profile, blend);
 }
 
+function segmentProgress(segment: Segment, t: number): number {
+  return clamp((t - segment.start) / Math.max(0.001, segment.end - segment.start));
+}
+
+function applySegmentEnvelope(profile: Profile, segment: Segment, t: number, showBody: boolean): Profile {
+  const p = segmentProgress(segment, t);
+  const attack = smoothstep(0, 0.18, p);
+  const release = 1 - smoothstep(0.78, 1, p);
+  const middle = smoothstep(0.12, 0.42, p) * (1 - smoothstep(0.68, 0.96, p));
+  const breath = 0.5 + 0.5 * Math.sin((p * Math.PI * 2 + profile.reflexivity * 0.7) * (showBody ? 1.2 : 0.72));
+
+  let intensity = profile.intensity;
+  let turbulence = profile.turbulence;
+  let lineLength = profile.lineLength;
+  let halo = profile.halo;
+  let beam = profile.beam;
+  let stillness = profile.stillness;
+  let thinness = profile.thinness;
+
+  if (segment.label === "Jhana 1") {
+    const ignition = attack * (0.65 + breath * 0.35);
+    intensity *= 0.82 + ignition * 0.32;
+    turbulence *= 0.94 + ignition * 0.2;
+    beam *= 1 + attack * 0.18;
+    lineLength *= 0.9 + attack * 0.18;
+  } else if (segment.label === "Jhana 2") {
+    intensity *= 0.94 + middle * 0.12;
+    turbulence *= 1 - middle * 0.14;
+    halo *= 1 + middle * 0.12;
+    lineLength *= 1 + middle * 0.1;
+  } else if (segment.label === "Jhana 3") {
+    const easing = smoothstep(0.08, 0.72, p);
+    intensity *= 1 - easing * 0.1;
+    turbulence *= 1 - easing * 0.24;
+    stillness = clamp(stillness + easing * 0.08);
+    lineLength *= 1.04 - easing * 0.08;
+  } else if (segment.label === "Jhana 4") {
+    const settling = smoothstep(0.04, 0.64, p);
+    intensity *= 0.92 + settling * 0.06;
+    turbulence *= 1 - settling * 0.32;
+    stillness = clamp(stillness + settling * 0.08);
+    lineLength *= 1 - settling * 0.16;
+  } else if (segment.label === "Jhana 5") {
+    const opening = smoothstep(0.02, 0.7, p);
+    halo *= 0.9 + opening * 0.18;
+    lineLength *= 0.92 + opening * 0.16;
+    thinness = clamp(thinness + release * 0.04);
+  } else if (segment.label === "Jhana 6") {
+    const recursion = middle * (0.7 + breath * 0.3);
+    halo *= 0.94 + recursion * 0.16;
+    lineLength *= 0.96 + recursion * 0.12;
+    stillness = clamp(stillness + recursion * 0.04);
+  } else if (segment.label === "Jhana 7") {
+    const ungrasping = smoothstep(0.06, 0.78, p);
+    intensity *= 1 - ungrasping * 0.18;
+    lineLength *= 1 - ungrasping * 0.2;
+    thinness = clamp(thinness + ungrasping * 0.1);
+    stillness = clamp(stillness + ungrasping * 0.05);
+  } else if (segment.label === "Jhana 8") {
+    const threshold = smoothstep(0.04, 0.88, p);
+    intensity *= 0.95 - threshold * 0.22;
+    halo *= 0.96 - threshold * 0.18;
+    lineLength *= 0.92 - threshold * 0.18;
+    thinness = clamp(thinness + threshold * 0.12);
+    stillness = clamp(stillness + threshold * 0.04);
+  }
+
+  return {
+    ...profile,
+    intensity: clamp(intensity, 0, 1.5),
+    turbulence: clamp(turbulence, 0, 1.6),
+    lineLength: clamp(lineLength, 0.3, 1.9),
+    halo: clamp(halo, 0, 1.5),
+    beam: clamp(beam, 0, 1.2),
+    stillness,
+    thinness
+  };
+}
+
 function smoothMask(value: number, inner: number, outer: number): number {
   return 1 - smoothstep(inner, outer, value);
 }
@@ -1492,7 +1571,11 @@ function renderTimeline(
   mode: "competition" | "induction"
 ): void {
   const time = clamp(env.t, 0, timeline[timeline.length - 1].end);
-  const profile = applyLabProfile(interpolateTimeline(timeline, time), env.lab);
+  const segment = getSegmentAtTime(timeline, time);
+  const profile = applyLabProfile(
+    applySegmentEnvelope(interpolateTimeline(timeline, time), segment, time, showBody),
+    env.lab
+  );
 
   drawBackdrop(ctx, env.width, env.height, profile, time);
 
@@ -1521,9 +1604,12 @@ function renderTimeline(
 
 function renderMeditationAtlas(ctx: CanvasRenderingContext2D, env: RenderEnv): void {
   const time = clamp(env.t, 0, atlasTimeline[atlasTimeline.length - 1].end);
-  const profile = applyLabProfile(interpolateTimeline(atlasTimeline, time), env.lab);
   const segment = getSegmentAtTime(atlasTimeline, time);
   const showBody = time < 18;
+  const profile = applyLabProfile(
+    applySegmentEnvelope(interpolateTimeline(atlasTimeline, time), segment, time, showBody),
+    env.lab
+  );
   const overlay = env.lab.overlay;
 
   drawBackdrop(ctx, env.width, env.height, profile, time);
