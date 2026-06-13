@@ -24,6 +24,8 @@ For J1-J4 specifically:
 - regenerate stills and a board for quick review
 - watch the whole video once without stopping
 - check that transitions feel intentional, not just parameter interpolation
+- for `Somatic Arc`, check that tactile marks read differently across J1-J4 rather than as generic texture
+- for `Formless Mirror`, check that lensing and field lines remain subtle enough that J7-J8 still feel sparse
 
 ## Writeup Checks
 
@@ -31,6 +33,7 @@ For J1-J4 specifically:
 - name the phenomenological features being prioritized
 - describe the meditation route or induction method honestly
 - replace generic first-person language with your own actual practice details
+- keep any method note explicitly marked as a placeholder until it has been personalized
 
 ## Repo Commands
 
