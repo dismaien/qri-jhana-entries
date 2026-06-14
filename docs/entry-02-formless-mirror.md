@@ -14,13 +14,15 @@ This entry treats J5 through J8 as a progressive removal of normal objecthood. T
 ## Visual Language
 
 - J5 uses nested spatial ellipses and outward reading depth to suggest barrierlessness.
-- J6 adds mirrored circular structures so awareness seems to know itself.
+- J6 adds mirrored circular structures and re-entering field lines so awareness seems to know itself.
 - J7 subtracts structure from the center and reduces the number of stable landing points.
 - J8 leaves only a whisper of contour and pulse, with almost no event density.
 
 ## Technical Model
 
 - The same oscillator engine is reused, but the node topology moves from body coordinates to field coordinates.
+- A lensing pass launches faint paths from the edges and bends them through the field, making attention read as changing curvature rather than a spotlight.
+- Segment envelopes thin and settle the field over time, especially through J7 and J8.
 - J5 increases spatial openness and radial reading.
 - J6 increases reflexivity so lines curve into nested self-referential loops.
 - J7 sharply increases emptiness, darkening the center and weakening attractors.

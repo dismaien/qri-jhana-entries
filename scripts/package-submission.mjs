@@ -13,14 +13,18 @@ const targets = {
   "somatic-arc": {
     title: "Entry 01 Somatic Arc",
     planDoc: "docs/entry-01-somatic-arc.md",
+    planName: "plan-entry-01-somatic-arc.md",
     draftDoc: "docs/submission-drafts/entry-01-somatic-arc.md",
+    draftName: "submission-draft-entry-01-somatic-arc.md",
     stills: ["somatic-arc-j1.png", "somatic-arc-j2.png", "somatic-arc-j3.png", "somatic-arc-j4.png"],
     board: "somatic-arc-board.png"
   },
   "formless-mirror": {
     title: "Entry 02 Formless Mirror",
     planDoc: "docs/entry-02-formless-mirror.md",
+    planName: "plan-entry-02-formless-mirror.md",
     draftDoc: "docs/submission-drafts/entry-02-formless-mirror.md",
+    draftName: "submission-draft-entry-02-formless-mirror.md",
     stills: [
       "formless-mirror-j5.png",
       "formless-mirror-j6.png",
@@ -32,7 +36,9 @@ const targets = {
   "induction-lantern": {
     title: "Entry 03 Induction Lantern",
     planDoc: "docs/entry-03-induction-lantern.md",
+    planName: "plan-entry-03-induction-lantern.md",
     draftDoc: "docs/submission-drafts/entry-03-induction-lantern.md",
+    draftName: "submission-draft-entry-03-induction-lantern.md",
     stills: ["induction-lantern-mid.png"],
     board: "induction-lantern-board.png"
   }
@@ -75,11 +81,11 @@ for (const entryId of entryIds) {
     },
     {
       from: path.join(cwd, target.planDoc),
-      to: path.join(entryDir, "docs", path.basename(target.planDoc))
+      to: path.join(entryDir, "docs", target.planName)
     },
     {
       from: path.join(cwd, target.draftDoc),
-      to: path.join(entryDir, "docs", path.basename(target.draftDoc))
+      to: path.join(entryDir, "docs", target.draftName)
     }
   ];
 
@@ -104,7 +110,7 @@ for (const entryId of entryIds) {
         video: videoFile,
         board: target.board,
         stills: target.stills,
-        docs: [path.basename(target.planDoc), path.basename(target.draftDoc)]
+        docs: [target.planName, target.draftName]
       },
       null,
       2

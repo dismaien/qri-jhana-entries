@@ -564,6 +564,85 @@ function interpolateTimeline(timeline: ProfileSegment[], t: number): Profile {
   return mixProfile(current.profile, next.profile, blend);
 }
 
+function segmentProgress(segment: Segment, t: number): number {
+  return clamp((t - segment.start) / Math.max(0.001, segment.end - segment.start));
+}
+
+function applySegmentEnvelope(profile: Profile, segment: Segment, t: number, showBody: boolean): Profile {
+  const p = segmentProgress(segment, t);
+  const attack = smoothstep(0, 0.18, p);
+  const release = 1 - smoothstep(0.78, 1, p);
+  const middle = smoothstep(0.12, 0.42, p) * (1 - smoothstep(0.68, 0.96, p));
+  const breath = 0.5 + 0.5 * Math.sin((p * Math.PI * 2 + profile.reflexivity * 0.7) * (showBody ? 1.2 : 0.72));
+
+  let intensity = profile.intensity;
+  let turbulence = profile.turbulence;
+  let lineLength = profile.lineLength;
+  let halo = profile.halo;
+  let beam = profile.beam;
+  let stillness = profile.stillness;
+  let thinness = profile.thinness;
+
+  if (segment.label === "Jhana 1") {
+    const ignition = attack * (0.65 + breath * 0.35);
+    intensity *= 0.82 + ignition * 0.32;
+    turbulence *= 0.94 + ignition * 0.2;
+    beam *= 1 + attack * 0.18;
+    lineLength *= 0.9 + attack * 0.18;
+  } else if (segment.label === "Jhana 2") {
+    intensity *= 0.94 + middle * 0.12;
+    turbulence *= 1 - middle * 0.14;
+    halo *= 1 + middle * 0.12;
+    lineLength *= 1 + middle * 0.1;
+  } else if (segment.label === "Jhana 3") {
+    const easing = smoothstep(0.08, 0.72, p);
+    intensity *= 1 - easing * 0.1;
+    turbulence *= 1 - easing * 0.24;
+    stillness = clamp(stillness + easing * 0.08);
+    lineLength *= 1.04 - easing * 0.08;
+  } else if (segment.label === "Jhana 4") {
+    const settling = smoothstep(0.04, 0.64, p);
+    intensity *= 0.92 + settling * 0.06;
+    turbulence *= 1 - settling * 0.32;
+    stillness = clamp(stillness + settling * 0.08);
+    lineLength *= 1 - settling * 0.16;
+  } else if (segment.label === "Jhana 5") {
+    const opening = smoothstep(0.02, 0.7, p);
+    halo *= 0.9 + opening * 0.18;
+    lineLength *= 0.92 + opening * 0.16;
+    thinness = clamp(thinness + release * 0.04);
+  } else if (segment.label === "Jhana 6") {
+    const recursion = middle * (0.7 + breath * 0.3);
+    halo *= 0.94 + recursion * 0.16;
+    lineLength *= 0.96 + recursion * 0.12;
+    stillness = clamp(stillness + recursion * 0.04);
+  } else if (segment.label === "Jhana 7") {
+    const ungrasping = smoothstep(0.06, 0.78, p);
+    intensity *= 1 - ungrasping * 0.18;
+    lineLength *= 1 - ungrasping * 0.2;
+    thinness = clamp(thinness + ungrasping * 0.1);
+    stillness = clamp(stillness + ungrasping * 0.05);
+  } else if (segment.label === "Jhana 8") {
+    const threshold = smoothstep(0.04, 0.88, p);
+    intensity *= 0.95 - threshold * 0.22;
+    halo *= 0.96 - threshold * 0.18;
+    lineLength *= 0.92 - threshold * 0.18;
+    thinness = clamp(thinness + threshold * 0.12);
+    stillness = clamp(stillness + threshold * 0.04);
+  }
+
+  return {
+    ...profile,
+    intensity: clamp(intensity, 0, 1.5),
+    turbulence: clamp(turbulence, 0, 1.6),
+    lineLength: clamp(lineLength, 0.3, 1.9),
+    halo: clamp(halo, 0, 1.5),
+    beam: clamp(beam, 0, 1.2),
+    stillness,
+    thinness
+  };
+}
+
 function smoothMask(value: number, inner: number, outer: number): number {
   return 1 - smoothstep(inner, outer, value);
 }
@@ -748,6 +827,58 @@ function drawSomaticShell(
   ctx.restore();
 }
 
+function drawBodyDepthContours(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  profile: Profile,
+  t: number
+): void {
+  const silhouette = bodyPath(width, height);
+  const contourCount = 8;
+  const centerX = width * 0.5;
+  const centerY = height * 0.52;
+
+  ctx.save();
+  ctx.clip(silhouette);
+  ctx.globalCompositeOperation = "screen";
+  ctx.lineCap = "round";
+
+  for (let i = 0; i < contourCount; i += 1) {
+    const depth = i / (contourCount - 1);
+    const wobble = Math.sin(t * (0.14 + profile.pulseRate * 0.018) + i * 0.8) * 0.012;
+    const rx = width * (0.08 + depth * 0.15 + wobble * (1 - profile.stillness));
+    const ry = height * (0.12 + depth * 0.35);
+    const y = centerY + height * (depth - 0.5) * 0.18;
+    const color = mixHsl(profile.body, profile.line, 0.58 + depth * 0.28);
+
+    ctx.strokeStyle = hsla(color, (0.032 + profile.halo * 0.035) * (1 - profile.emptiness * 0.45));
+    ctx.lineWidth = 0.7 + profile.coherence * 0.55;
+    ctx.beginPath();
+    ctx.ellipse(centerX, y, rx, ry, 0, Math.PI * 0.08, Math.PI * 0.92);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.ellipse(centerX, y, rx, ry, 0, Math.PI * 1.08, Math.PI * 1.92);
+    ctx.stroke();
+  }
+
+  const highlight = ctx.createRadialGradient(
+    width * 0.43,
+    height * 0.34,
+    0,
+    width * 0.48,
+    height * 0.42,
+    Math.min(width, height) * 0.28
+  );
+  highlight.addColorStop(0, hsla(profile.glow, 0.09 + profile.intensity * 0.035));
+  highlight.addColorStop(0.52, hsla(profile.accent, 0.026 + profile.halo * 0.025));
+  highlight.addColorStop(1, hsla(profile.glow, 0));
+  ctx.fillStyle = highlight;
+  ctx.fillRect(width * 0.18, height * 0.08, width * 0.64, height * 0.68);
+
+  ctx.restore();
+}
+
 function reactionDiffusionLike(nx: number, ny: number, t: number, profile: Profile, coupling: number): number {
   const coarse = fbm(
     nx * (5.2 + profile.coherence * 2.4) + t * (0.07 + profile.turbulence * 0.08),
@@ -769,6 +900,94 @@ function reactionDiffusionLike(nx: number, ny: number, t: number, profile: Profi
       );
   const ridge = smoothstep(0.34, 0.58, cellular) * (1 - smoothstep(0.68, 0.9, cellular));
   return clamp(ridge * (0.5 + pulse * 0.75));
+}
+
+function tactileEnvelope(nx: number, ny: number, t: number, profile: Profile): number {
+  const centerBias = Math.exp(-((nx - 0.5) ** 2 * 14 + (ny - 0.39) ** 2 * 11));
+  const wholeBody = bodyCoreMask(nx, ny);
+  const wave =
+    0.5 +
+    0.5 *
+      Math.sin(
+        (ny * (8 - profile.stillness * 4.4) +
+          fbm(nx * 9 + t * 0.08, ny * 7 - t * 0.07, 3) * 1.6 -
+          t * (0.8 + profile.pulseRate * 0.15)) *
+          Math.PI
+      );
+
+  const ignition = smoothstep(0.28, 0.82, profile.turbulence) * centerBias;
+  const laminar = smoothstep(0.44, 0.78, profile.stillness) * wave * wholeBody;
+  const uniform = smoothstep(0.72, 0.94, profile.stillness) * wholeBody;
+
+  return clamp(ignition * 0.78 + laminar * 0.44 + uniform * 0.36);
+}
+
+function drawTactileSignatures(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  t: number,
+  profile: Profile
+): void {
+  const seedCount = Math.round(120 + profile.turbulence * 180 + profile.intensity * 80 - profile.stillness * 90);
+  const prickleBias = smoothstep(0.34, 0.8, profile.turbulence) * (1 - smoothstep(0.34, 0.8, profile.stillness));
+  const pressureBias = smoothstep(0.26, 0.72, profile.stillness);
+
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+  ctx.lineCap = "round";
+
+  for (let i = 0; i < seedCount; i += 1) {
+    const u = hash2(i + 2.1, 4.7);
+    const v = hash2(i + 3.4, 8.2);
+    const nx = mix(0.25, 0.75, u);
+    const ny = mix(0.08, 0.96, v);
+    const core = bodyCoreMask(nx, ny);
+
+    if (core < 0.06) {
+      continue;
+    }
+
+    const envelope = tactileEnvelope(nx, ny, t + i * 0.003, profile) * core;
+    const field = sampleField(nx, ny, t + i * 0.01, profile, bodyNodes, true);
+    const ignitionPulse =
+      0.5 +
+      0.5 *
+        Math.sin(
+          t * (profile.pulseRate * 1.15 + 1.2) +
+            field.energy * 9.5 +
+            hash2(i, 1.3) * Math.PI * 2
+        );
+    const onset = smoothstep(0.58, 0.94, ignitionPulse);
+    const alpha = clamp(envelope * (0.055 + profile.intensity * 0.08) * (0.45 + onset * prickleBias));
+
+    if (alpha < 0.018) {
+      continue;
+    }
+
+    const x = nx * width;
+    const y = ny * height;
+    const color = mixHsl(profile.accent, profile.glow, pressureBias * 0.55 + onset * prickleBias * 0.22);
+
+    if (prickleBias > pressureBias * 0.85 && hash2(i, 7.9) > 0.34) {
+      const length = 2.4 + onset * 7.5 + profile.turbulence * 3;
+      ctx.strokeStyle = hsla(color, alpha * 1.6);
+      ctx.lineWidth = 0.5 + onset * 0.8;
+      ctx.beginPath();
+      ctx.moveTo(x - field.vx * length * 0.4, y - field.vy * length * 0.4);
+      ctx.lineTo(x + field.vx * length, y + field.vy * length);
+      ctx.stroke();
+    } else {
+      const radius = 1.6 + pressureBias * 5.5 + envelope * 3.2;
+      ctx.strokeStyle = hsla(color, alpha);
+      ctx.lineWidth = 0.65 + pressureBias * 1.1;
+      ctx.beginPath();
+      ctx.ellipse(x, y, radius * 1.55, radius * 0.52, Math.atan2(field.vy, field.vx), 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+
+  ctx.restore();
 }
 
 function pickWeightedNodeIndex(seed: number, weights: number[]): number {
@@ -1086,14 +1305,69 @@ function drawFormlessStructures(
   }
 
   if (profile.reflexivity > 0.3) {
-    const mirrorCount = 4;
+    const mirrorCount = 5;
     for (let i = 0; i < mirrorCount; i += 1) {
-      const radius = Math.min(width, height) * (0.08 + i * 0.055);
-      ctx.strokeStyle = hsla(profile.glow, 0.06 + profile.reflexivity * 0.08 - i * 0.01);
+      const radius = Math.min(width, height) * (0.075 + i * 0.052);
+      const shear = Math.sin(t * 0.06 + i * 0.9) * profile.reflexivity * 0.18;
+      ctx.strokeStyle = hsla(profile.glow, 0.055 + profile.reflexivity * 0.075 - i * 0.009);
       ctx.beginPath();
-      ctx.arc(width * 0.5, height * 0.5, radius, 0, Math.PI * 2);
+      ctx.ellipse(width * 0.5, height * 0.5, radius * (1 + shear), radius * (1 - shear * 0.45), shear, 0, Math.PI * 2);
       ctx.stroke();
     }
+  }
+
+  const lensAlpha = (0.025 + profile.spaciousness * 0.028 + profile.reflexivity * 0.04) * (1 - profile.thinness * 0.48);
+  ctx.lineCap = "round";
+
+  for (let i = 0; i < 44; i += 1) {
+    const side = i % 4;
+    const along = (i / 11) % 1;
+    const edgeOffset = hash2(i, 11.2) * 0.22;
+    let x =
+      side === 0
+        ? width * edgeOffset
+        : side === 1
+          ? width * (1 - edgeOffset)
+          : width * along;
+    let y =
+      side === 2
+        ? height * edgeOffset
+        : side === 3
+          ? height * (1 - edgeOffset)
+          : height * along;
+    const path = new Path2D();
+    const hue = mixHsl(profile.line, profile.glow, hash2(i, 3.3));
+    let moved = false;
+    let alpha = lensAlpha;
+
+    for (let step = 0; step < 22; step += 1) {
+      const nx = x / width;
+      const ny = y / height;
+      const field = sampleField(nx, ny, t * 0.72 + step * 0.025, profile, spaceNodes, false);
+      const radialDistance = Math.hypot(nx - 0.5, ny - 0.5);
+      const reentry = profile.reflexivity * Math.sin(radialDistance * 14 - t * 0.2 + i * 0.36);
+      const tangentX = -(ny - 0.5);
+      const tangentY = nx - 0.5;
+      const length = (9 + profile.lineLength * 15) * (0.75 + field.energy * 1.2) * (1 - profile.emptiness * 0.18);
+
+      if (!moved) {
+        path.moveTo(x, y);
+        moved = true;
+      }
+
+      x += (field.vx + tangentX * reentry * 0.9) * length;
+      y += (field.vy + tangentY * reentry * 0.9) * length;
+      path.lineTo(x, y);
+      alpha += field.energy * 0.018;
+
+      if (x < -width * 0.08 || x > width * 1.08 || y < -height * 0.08 || y > height * 1.08) {
+        break;
+      }
+    }
+
+    ctx.strokeStyle = hsla(hue, clamp(alpha, 0.015, 0.16));
+    ctx.lineWidth = 0.55 + profile.reflexivity * 0.75 + profile.spaciousness * 0.35;
+    ctx.stroke(path);
   }
 
   if (profile.emptiness > 0.25) {
@@ -1297,13 +1571,19 @@ function renderTimeline(
   mode: "competition" | "induction"
 ): void {
   const time = clamp(env.t, 0, timeline[timeline.length - 1].end);
-  const profile = applyLabProfile(interpolateTimeline(timeline, time), env.lab);
+  const segment = getSegmentAtTime(timeline, time);
+  const profile = applyLabProfile(
+    applySegmentEnvelope(interpolateTimeline(timeline, time), segment, time, showBody),
+    env.lab
+  );
 
   drawBackdrop(ctx, env.width, env.height, profile, time);
 
   if (showBody) {
     drawSomaticShell(ctx, env.width, env.height, profile);
+    drawBodyDepthContours(ctx, env.width, env.height, profile, time);
     drawOrganicMembrane(ctx, env.width, env.height, time, profile);
+    drawTactileSignatures(ctx, env.width, env.height, time, profile);
   } else {
     drawFormlessStructures(ctx, env.width, env.height, time, profile);
   }
@@ -1324,16 +1604,21 @@ function renderTimeline(
 
 function renderMeditationAtlas(ctx: CanvasRenderingContext2D, env: RenderEnv): void {
   const time = clamp(env.t, 0, atlasTimeline[atlasTimeline.length - 1].end);
-  const profile = applyLabProfile(interpolateTimeline(atlasTimeline, time), env.lab);
   const segment = getSegmentAtTime(atlasTimeline, time);
   const showBody = time < 18;
+  const profile = applyLabProfile(
+    applySegmentEnvelope(interpolateTimeline(atlasTimeline, time), segment, time, showBody),
+    env.lab
+  );
   const overlay = env.lab.overlay;
 
   drawBackdrop(ctx, env.width, env.height, profile, time);
 
   if (showBody) {
     drawSomaticShell(ctx, env.width, env.height, profile);
+    drawBodyDepthContours(ctx, env.width, env.height, profile, time);
     drawOrganicMembrane(ctx, env.width, env.height, time, profile);
+    drawTactileSignatures(ctx, env.width, env.height, time, profile);
   } else {
     drawFormlessStructures(ctx, env.width, env.height, time, profile);
   }
