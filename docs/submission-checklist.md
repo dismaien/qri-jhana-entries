@@ -46,12 +46,14 @@ npm run refresh:formless
 npm run refresh:induction
 npm run inventory:renders
 npm run package:submissions
+npm run validate:submissions
 ```
 
 ## Packaging Pass
 
 - confirm each entry has the expected MP4, stills, and board before packaging
 - gather the latest submission-ready files into `submission-package/`
+- validate the package manifest, docs, stills, board, video, and draft word-count bounds
 - open the packaged folders and check that each writeup matches the video beside it
 
 ## Final Human Review

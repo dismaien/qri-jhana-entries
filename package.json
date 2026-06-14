@@ -26,6 +26,7 @@
     "refresh:all": "node scripts/refresh-entry.mjs all",
     "inventory:renders": "node scripts/render-inventory.mjs",
     "package:submissions": "node scripts/package-submission.mjs all",
+    "validate:submissions": "node scripts/validate-submission-package.mjs all",
     "links:review": "node scripts/review-links.mjs"
   },
   "devDependencies": {
