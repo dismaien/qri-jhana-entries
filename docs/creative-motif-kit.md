@@ -16,6 +16,18 @@ Quick map of the new reusable pieces in the renderer.
 - `drawOpenVeil(...)`
   Good for open awareness, panoramic attention, and less object-centered practice states.
 
+- `drawPauseGate(...)`
+  Good for breath-pause practices and subtle centering around the face, throat, and upper chest.
+
+- `drawLotusPetals(...)`
+  Good for heart-lotus, devotional, and recognition-centered chest practices.
+
+- `drawBodySpaceWindows(...)`
+  Good for space-in-the-body practices where embodiment becomes porous rather than absent.
+
+- `drawRecognitionGlints(...)`
+  Good for sparse nondual recognition fields where ordinary perception flashes as awareness.
+
 ## Practical Remix Notes
 
 - If a study is too busy, reduce fireflies first and only then reduce flow lines.
@@ -29,6 +41,7 @@ Quick map of the new reusable pieces in the renderer.
 - a grief or tenderness piece based on `drawHeartBloom(...)`
 - a secular breath-coherence visual with slower pacing
 - a nondual / open-awareness study built from `drawOpenVeil(...)` plus lighter field lines
+- a VBT-inspired study that sequences breath pause, heart-lotus, space-in-body, and recognition-field motifs
 
 ## Lab Mode Pairings
 
@@ -40,6 +53,9 @@ Quick map of the new reusable pieces in the renderer.
 
 - `Vastness` + `drawOpenVeil(...)`
   Good for open-awareness, sky-like, or nondual studies.
+
+- `Vastness` + `drawBodySpaceWindows(...)`
+  Good for Tantric spacious-body studies.
 
 - `Electric` + body-based entries
   Good for sharper concentration ramps or energized somatic work.

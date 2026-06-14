@@ -23,6 +23,7 @@ The current four-part sequence is:
 - body scan bands: broad moving layers that comb sensation through the body
 - heart bloom: warm radial expansion from the chest for metta, gratitude, or devotional warmth
 - open veil: soft large-scale field structures for open awareness and panoramic attention
+- Tantric recognition overlays now extend this study family in `docs/entry-05-tantric-recognition-atlas.md`.
 
 ## Suggested Uses
 
