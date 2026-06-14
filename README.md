@@ -109,6 +109,7 @@ npm run refresh:induction
 npm run refresh:atlas
 npm run inventory:renders
 npm run package:submissions
+npm run validate:submissions
 npm run links:review
 ```
 
