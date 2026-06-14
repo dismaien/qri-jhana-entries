@@ -5,6 +5,7 @@
 Example:
 
 - `http://127.0.0.1:4173/?entry=meditation-atlas&lab=1`
+- `http://127.0.0.1:4173/?entry=tantric-recognition-atlas&lab=1`
 
 ## What It Adds
 
@@ -57,3 +58,4 @@ Example:
 - audition multiple moods for the same entry without editing source
 - find a promising variant and then turn it into a dedicated new study
 - generate different flavor directions for breath, metta, or open-awareness work
+- test Tantric/VBT-inspired variations such as softer heart-lotus overlays, wider body-space windows, or quieter recognition-field glints
