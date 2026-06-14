@@ -11,6 +11,7 @@ This repo is built around three candidate submissions:
 It also now includes:
 
 - `Study 4: Meditation Atlas`, a more general meditation sketchbook built from reusable motifs for breath, body scan, metta, and open awareness.
+- `Study 5: Tantric Recognition Atlas`, a nondual Shaiva Tantra / VBT-flavored sketchbook for breath pause, heart-lotus embodiment, space-in-body, and recognition-field motifs.
 - `Lab Mode`, a live remix surface for trying palette and motion variants without editing code.
 
 The app is a deterministic canvas sketchbook so the same scenes can be explored interactively and exported to MP4.
@@ -68,6 +69,7 @@ Source links:
 - `docs/entry-02-formless-mirror.md`: plan for J5-J8
 - `docs/entry-03-induction-lantern.md`: honorable-mention concept
 - `docs/entry-04-meditation-atlas.md`: creative sketchbook plan for non-contest studies
+- `docs/entry-05-tantric-recognition-atlas.md`: post-contest Tantric / VBT motif study
 - `docs/creative-motif-kit.md`: quick map of reusable visual motifs
 - `docs/submission-drafts/`: draft writeups to personalize before submitting
 
@@ -95,18 +97,22 @@ npm run render:somatic
 npm run render:formless
 npm run render:induction
 npm run render:atlas
+npm run render:tantra
 npm run stills:somatic
 npm run stills:formless
 npm run stills:induction
 npm run stills:atlas
+npm run stills:tantra
 npm run board:somatic
 npm run board:formless
 npm run board:induction
 npm run board:atlas
+npm run board:tantra
 npm run refresh:somatic
 npm run refresh:formless
 npm run refresh:induction
 npm run refresh:atlas
+npm run refresh:tantra
 npm run inventory:renders
 npm run package:submissions
 npm run validate:submissions

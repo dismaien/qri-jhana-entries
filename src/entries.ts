@@ -66,6 +66,7 @@ const SOMATIC_DURATION = 24;
 const FORMLESS_DURATION = 24;
 const INDUCTION_DURATION = 18;
 const ATLAS_DURATION = 24;
+const TANTRIC_ATLAS_DURATION = 24;
 
 const somaticTimeline: ProfileSegment[] = [
   {
@@ -495,6 +496,121 @@ const atlasTimeline: ProfileSegment[] = [
       beam: 0.02,
       symmetry: 0.86,
       stillness: 0.84
+    }
+  }
+];
+
+const tantricAtlasTimeline: ProfileSegment[] = [
+  {
+    label: "Breath Pause",
+    start: 0,
+    end: 6,
+    note: "Attention gathers in the breath and the charged stillness around the pause.",
+    profile: {
+      bgTop: [222, 42, 9],
+      bgBottom: [188, 46, 11],
+      glow: [184, 78, 72],
+      accent: [42, 88, 72],
+      line: [190, 72, 88],
+      body: [13, 17, 16],
+      nodeWeights: [0.7, 1.02, 0.88, 0.42, 0.24, 0.18, 0.18, 0.14],
+      coherence: 0.68,
+      turbulence: 0.1,
+      intensity: 0.34,
+      pulseRate: 1.15,
+      lineLength: 0.68,
+      halo: 0.56,
+      spaciousness: 0.24,
+      reflexivity: 0.12,
+      emptiness: 0.04,
+      thinness: 0.08,
+      beam: 0.78,
+      symmetry: 0.88,
+      stillness: 0.62
+    }
+  },
+  {
+    label: "Heart Lotus",
+    start: 6,
+    end: 12,
+    note: "The heart is treated as the converging center of affect, attention, and recognition.",
+    profile: {
+      bgTop: [236, 32, 10],
+      bgBottom: [348, 54, 12],
+      glow: [35, 96, 74],
+      accent: [334, 88, 72],
+      line: [26, 86, 86],
+      body: [18, 17, 15],
+      nodeWeights: [0.44, 0.52, 1.18, 0.92, 0.52, 0.34, 0.34, 0.28],
+      coherence: 0.78,
+      turbulence: 0.12,
+      intensity: 0.56,
+      pulseRate: 2.1,
+      lineLength: 0.92,
+      halo: 0.94,
+      spaciousness: 0.34,
+      reflexivity: 0.2,
+      emptiness: 0.02,
+      thinness: 0.08,
+      beam: 0.18,
+      symmetry: 0.88,
+      stillness: 0.44
+    }
+  },
+  {
+    label: "Space In The Body",
+    start: 12,
+    end: 18,
+    note: "The body becomes porous and spacious without disappearing from experience.",
+    profile: {
+      bgTop: [214, 30, 9],
+      bgBottom: [252, 24, 10],
+      glow: [204, 62, 76],
+      accent: [168, 62, 78],
+      line: [210, 58, 88],
+      body: [10, 9, 15],
+      nodeWeights: [0.54, 0.58, 0.7, 0.76, 0.84, 0.54, 0.54, 0.52],
+      coherence: 0.84,
+      turbulence: 0.08,
+      intensity: 0.38,
+      pulseRate: 1.05,
+      lineLength: 1.08,
+      halo: 0.62,
+      spaciousness: 0.78,
+      reflexivity: 0.28,
+      emptiness: 0.26,
+      thinness: 0.34,
+      beam: 0.02,
+      symmetry: 0.9,
+      stillness: 0.82
+    }
+  },
+  {
+    label: "Recognition Field",
+    start: 18,
+    end: 24,
+    note: "Ordinary perception relaxes into an unbroken field of awareness and manifestation.",
+    profile: {
+      bgTop: [224, 24, 8],
+      bgBottom: [266, 24, 9],
+      glow: [270, 62, 78],
+      accent: [198, 70, 78],
+      line: [244, 56, 88],
+      body: [0, 0, 0],
+      nodeWeights: [0.58, 0.56, 0.64, 0.64, 0.94, 0.72, 0.72, 0.5],
+      coherence: 0.88,
+      turbulence: 0.06,
+      intensity: 0.34,
+      pulseRate: 0.92,
+      lineLength: 1.16,
+      halo: 0.58,
+      spaciousness: 1,
+      reflexivity: 0.72,
+      emptiness: 0.36,
+      thinness: 0.46,
+      beam: 0,
+      symmetry: 0.92,
+      stillness: 0.9
     }
   }
 ];
@@ -1543,6 +1659,154 @@ function drawOpenVeil(
   ctx.restore();
 }
 
+function drawPauseGate(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  t: number,
+  profile: Profile,
+  overlay = 1
+): void {
+  const breath = 0.5 + 0.5 * Math.sin(t * Math.PI * 0.5);
+  const pause = 1 - smoothstep(0.42, 0.78, Math.abs(breath - 0.5) * 2);
+  const x = width * 0.5;
+  const upper = height * 0.19;
+  const lower = height * 0.32;
+  const radius = Math.min(width, height) * (0.035 + pause * 0.025);
+
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+  ctx.strokeStyle = hsla(profile.accent, (0.12 + pause * 0.16) * overlay);
+  ctx.lineWidth = 1.2 + pause * 1.6;
+
+  for (const y of [upper, lower]) {
+    ctx.beginPath();
+    ctx.ellipse(x, y, radius * 1.55, radius * 0.82, 0, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  ctx.beginPath();
+  ctx.moveTo(x, upper + radius * 0.78);
+  ctx.bezierCurveTo(x - width * 0.035, height * 0.24, x + width * 0.035, height * 0.27, x, lower - radius * 0.78);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawLotusPetals(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  t: number,
+  profile: Profile,
+  overlay = 1
+): void {
+  const x = width * 0.5;
+  const y = height * 0.39;
+  const pulse = 0.5 + 0.5 * Math.sin(t * Math.PI * 0.62);
+  const base = Math.min(width, height) * (0.055 + pulse * 0.018);
+
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+  ctx.strokeStyle = hsla(mixHsl(profile.accent, profile.glow, 0.35), (0.13 + pulse * 0.08) * overlay);
+  ctx.fillStyle = hsla(profile.accent, (0.035 + pulse * 0.035) * overlay);
+  ctx.lineWidth = 1.2 + overlay * 0.4;
+
+  for (let i = 0; i < 12; i += 1) {
+    const angle = (i / 12) * Math.PI * 2 + t * 0.035;
+    const px = x + Math.cos(angle) * base * 0.72;
+    const py = y + Math.sin(angle) * base * 0.52;
+
+    ctx.beginPath();
+    ctx.ellipse(px, py, base * 0.38, base * (0.9 + pulse * 0.25), angle, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+function drawBodySpaceWindows(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  t: number,
+  profile: Profile,
+  overlay = 1
+): void {
+  const silhouette = bodyPath(width, height);
+
+  ctx.save();
+  ctx.clip(silhouette);
+  ctx.globalCompositeOperation = "destination-out";
+
+  for (let i = 0; i < 7; i += 1) {
+    const nx = 0.5 + Math.sin(i * 1.7) * 0.085;
+    const ny = 0.18 + i * 0.105;
+    const pulse = 0.5 + 0.5 * Math.sin(t * 0.18 + i * 0.8);
+    const rx = width * (0.035 + pulse * 0.012);
+    const ry = height * (0.05 + pulse * 0.018);
+    const gradient = ctx.createRadialGradient(nx * width, ny * height, 0, nx * width, ny * height, Math.max(rx, ry) * 1.8);
+    gradient.addColorStop(0, `rgba(0, 0, 0, ${0.16 * overlay})`);
+    gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.ellipse(nx * width, ny * height, rx, ry, i * 0.24, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+  ctx.strokeStyle = hsla(profile.line, 0.06 * overlay);
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 5; i += 1) {
+    const y = height * (0.24 + i * 0.12);
+    ctx.beginPath();
+    ctx.moveTo(width * 0.34, y);
+    ctx.bezierCurveTo(width * 0.42, y - height * 0.035, width * 0.58, y + height * 0.035, width * 0.66, y);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawRecognitionGlints(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  t: number,
+  profile: Profile,
+  overlay = 1
+): void {
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+  ctx.lineCap = "round";
+
+  for (let i = 0; i < 72; i += 1) {
+    const nx = hash2(i, 12.3);
+    const ny = hash2(i + 0.4, 17.9);
+    const field = sampleField(nx, ny, t * 0.44 + i * 0.01, profile, spaceNodes, false);
+    const pulse = smoothstep(0.62, 0.98, 0.5 + 0.5 * Math.sin(t * 0.42 + i * 1.37 + field.energy * 5));
+
+    if (pulse < 0.08) {
+      continue;
+    }
+
+    const x = nx * width;
+    const y = ny * height;
+    const length = (3 + pulse * 10) * overlay;
+    const color = mixHsl(profile.glow, profile.accent, hash2(i, 4.2));
+    ctx.strokeStyle = hsla(color, clamp(pulse * (0.04 + profile.reflexivity * 0.05) * overlay, 0, 0.13));
+    ctx.lineWidth = 0.5 + pulse * 0.7;
+    ctx.beginPath();
+    ctx.moveTo(x - field.vx * length, y - field.vy * length);
+    ctx.lineTo(x + field.vx * length, y + field.vy * length);
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
 function drawVignette(ctx: CanvasRenderingContext2D, width: number, height: number, profile: Profile, t: number): void {
   const gradient = ctx.createRadialGradient(width * 0.5, height * 0.46, Math.min(width, height) * 0.2, width * 0.5, height * 0.5, Math.min(width, height) * 0.72);
   gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
@@ -1650,6 +1914,58 @@ function renderMeditationAtlas(ctx: CanvasRenderingContext2D, env: RenderEnv): v
   drawVignette(ctx, env.width, env.height, profile, time);
 }
 
+function renderTantricRecognitionAtlas(ctx: CanvasRenderingContext2D, env: RenderEnv): void {
+  const time = clamp(env.t, 0, tantricAtlasTimeline[tantricAtlasTimeline.length - 1].end);
+  const segment = getSegmentAtTime(tantricAtlasTimeline, time);
+  const showBody = time < 18;
+  const profile = applyLabProfile(
+    applySegmentEnvelope(interpolateTimeline(tantricAtlasTimeline, time), segment, time, showBody),
+    env.lab
+  );
+  const overlay = env.lab.overlay;
+
+  drawBackdrop(ctx, env.width, env.height, profile, time);
+
+  if (showBody) {
+    drawSomaticShell(ctx, env.width, env.height, profile);
+    drawBodyDepthContours(ctx, env.width, env.height, profile, time);
+    drawOrganicMembrane(ctx, env.width, env.height, time, profile);
+    drawTactileSignatures(ctx, env.width, env.height, time, profile);
+  } else {
+    drawFormlessStructures(ctx, env.width, env.height, time, profile);
+  }
+
+  drawFieldMesh(ctx, env.width, env.height, time, profile, showBody);
+  drawFlowLines(ctx, env.width, env.height, time, profile, showBody);
+
+  if (segment.label === "Breath Pause") {
+    drawBreathContours(ctx, env.width, env.height, time, profile, overlay);
+    drawPauseGate(ctx, env.width, env.height, time, profile, overlay);
+  }
+
+  if (segment.label === "Heart Lotus") {
+    drawHeartBloom(ctx, env.width, env.height, time, profile, overlay);
+    drawLotusPetals(ctx, env.width, env.height, time, profile, overlay);
+  }
+
+  if (segment.label === "Space In The Body") {
+    drawOpenVeil(ctx, env.width, env.height, time, profile, overlay * 0.8);
+    drawBodySpaceWindows(ctx, env.width, env.height, time, profile, overlay);
+  }
+
+  if (segment.label === "Recognition Field") {
+    drawOpenVeil(ctx, env.width, env.height, time, profile, overlay);
+    drawRecognitionGlints(ctx, env.width, env.height, time, profile, overlay);
+  }
+
+  if (showBody) {
+    drawSyncedFireflies(ctx, env.width, env.height, time, profile);
+  }
+
+  drawNodes(ctx, env.width, env.height, profile, showBody);
+  drawVignette(ctx, env.width, env.height, profile, time);
+}
+
 export const entries: Entry[] = [
   {
     id: "somatic-arc",
@@ -1690,6 +2006,16 @@ export const entries: Entry[] = [
     tags: "grounding breath (0:00-0:06), body scan river (0:06-0:12), metta hearth (0:12-0:18), open sky (0:18-0:24)",
     segments: atlasTimeline,
     render: renderMeditationAtlas
+  },
+  {
+    id: "tantric-recognition-atlas",
+    title: "Study 5: Tantric Recognition Atlas",
+    summary:
+      "A nondual Shaiva Tantra / VBT-flavored sketchbook: breath pause, heart-lotus embodiment, space in the body, and recognition as an open field.",
+    duration: TANTRIC_ATLAS_DURATION,
+    tags: "breath pause (0:00-0:06), heart lotus (0:06-0:12), space in the body (0:12-0:18), recognition field (0:18-0:24)",
+    segments: tantricAtlasTimeline,
+    render: renderTantricRecognitionAtlas
   }
 ];
 

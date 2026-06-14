@@ -22,6 +22,12 @@ const stillConfig = {
     { time: 9, file: "meditation-atlas-scan.png" },
     { time: 15, file: "meditation-atlas-metta.png" },
     { time: 21, file: "meditation-atlas-open-sky.png" }
+  ],
+  "tantric-recognition-atlas": [
+    { time: 3, file: "tantric-recognition-atlas-breath-pause.png" },
+    { time: 9, file: "tantric-recognition-atlas-heart-lotus.png" },
+    { time: 15, file: "tantric-recognition-atlas-body-space.png" },
+    { time: 21, file: "tantric-recognition-atlas-recognition-field.png" }
   ]
 };
 

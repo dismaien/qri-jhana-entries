@@ -38,6 +38,16 @@ const targets = [
       "meditation-atlas-open-sky.png"
     ],
     board: "meditation-atlas-board.png"
+  },
+  {
+    id: "tantric-recognition-atlas",
+    stills: [
+      "tantric-recognition-atlas-breath-pause.png",
+      "tantric-recognition-atlas-heart-lotus.png",
+      "tantric-recognition-atlas-body-space.png",
+      "tantric-recognition-atlas-recognition-field.png"
+    ],
+    board: "tantric-recognition-atlas-board.png"
   }
 ];
 

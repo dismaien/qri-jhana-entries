@@ -7,7 +7,13 @@ const height = String(Number(process.argv[4] ?? 540));
 const fps = String(Number(process.argv[5] ?? 12));
 const cwd = process.cwd();
 
-const knownEntries = ["somatic-arc", "formless-mirror", "induction-lantern", "meditation-atlas"];
+const knownEntries = [
+  "somatic-arc",
+  "formless-mirror",
+  "induction-lantern",
+  "meditation-atlas",
+  "tantric-recognition-atlas"
+];
 const entryIds = entryArg === "all" ? knownEntries : [entryArg];
 
 function run(command, args) {

@@ -50,6 +50,18 @@ const sheetConfig = {
     ],
     labels: ["Grounding Breath", "Body Scan River", "Metta Hearth", "Open Sky"],
     columns: 2
+  },
+  "tantric-recognition-atlas": {
+    title: "Study 5: Tantric Recognition Atlas",
+    subtitle: "Nondual Shaiva Tantra / VBT motif board",
+    files: [
+      "tantric-recognition-atlas-breath-pause.png",
+      "tantric-recognition-atlas-heart-lotus.png",
+      "tantric-recognition-atlas-body-space.png",
+      "tantric-recognition-atlas-recognition-field.png"
+    ],
+    labels: ["Breath Pause", "Heart Lotus", "Space In The Body", "Recognition Field"],
+    columns: 2
   }
 };
 
