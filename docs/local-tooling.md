@@ -22,18 +22,22 @@ npm run render:somatic
 npm run render:formless
 npm run render:induction
 npm run render:atlas
+npm run render:tantra
 npm run stills:somatic
 npm run stills:formless
 npm run stills:induction
 npm run stills:atlas
+npm run stills:tantra
 npm run board:somatic
 npm run board:formless
 npm run board:induction
 npm run board:atlas
+npm run board:tantra
 npm run refresh:somatic
 npm run refresh:formless
 npm run refresh:induction
 npm run refresh:atlas
+npm run refresh:tantra
 npm run inventory:renders
 npm run links:review
 ```
@@ -42,7 +46,11 @@ The `refresh:*` scripts are the fastest review loop because they rerender the MP
 
 `npm run inventory:renders` is useful right before packaging because it quickly shows which videos, stills, and boards are present for each entry.
 
-`npm run links:review` prints paused clean-preview URLs for the standard frame checks, which is handy when comparing notes across entries.
+`npm run links:review` prints paused clean-preview URLs for the standard frame checks, which is handy when comparing notes across entries. To print one entry only, pass the base URL and entry id:
+
+```bash
+npm run links:review -- http://127.0.0.1:4173/ tantric-recognition-atlas
+```
 
 For live creative tweaking in the browser, open an entry with `?lab=1`, for example `http://127.0.0.1:4173/?entry=meditation-atlas&lab=1`.
 

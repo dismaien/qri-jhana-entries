@@ -1,6 +1,7 @@
 import process from "node:process";
 
 const baseUrl = process.argv[2] ?? "http://127.0.0.1:4173/";
+const targetArg = process.argv[3] ?? "all";
 
 const targets = [
   {
@@ -33,10 +34,25 @@ const targets = [
       { label: "Metta Hearth", time: 15 },
       { label: "Open Sky", time: 21 }
     ]
+  },
+  {
+    id: "tantric-recognition-atlas",
+    frames: [
+      { label: "Breath Pause", time: 3 },
+      { label: "Heart Lotus", time: 9 },
+      { label: "Space In The Body", time: 15 },
+      { label: "Recognition Field", time: 21 }
+    ]
   }
 ];
 
-for (const target of targets) {
+const selectedTargets = targetArg === "all" ? targets : targets.filter((target) => target.id === targetArg);
+
+if (selectedTargets.length === 0) {
+  throw new Error(`Unknown review-link target: ${targetArg}`);
+}
+
+for (const target of selectedTargets) {
   console.log(target.id);
 
   for (const frame of target.frames) {
