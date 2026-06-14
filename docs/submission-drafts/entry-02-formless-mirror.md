@@ -1,6 +1,6 @@
 # Draft Submission: Formless Mirror
 
-Working draft for the written description. This is in range for the contest, but the method paragraph should be personalized before submission.
+Working draft for the written description. The practice-context paragraph now uses a nondual Shaiva Tantra framing rather than claiming a specific attainment history.
 
 ## Tags
 
@@ -20,4 +20,4 @@ Jhana 8 is treated as a near-failure of depiction. I reduced line count, pulse r
 
 All four segments are generated from the same coupled-oscillator engine, but the topology shifts from body-centered coordinates to field-centered coordinates. The shared envelope system gradually opens, recurses, subtracts, and attenuates the field. This continuity matters to me because it frames the formless jhanas not as a different universe, but as a further refinement and attenuation of the same dynamical substrate.
 
-Method note to personalize before submission: replace this paragraph with the actual contemplative frame used for the formless sequence. Useful details would include whether the piece follows a particular teacher, lineage, phenomenological map, or personal retreat context, and where the visual model is direct report versus artistic extrapolation.
+Practice context: this piece is informed by nondual Shaiva Tantra as taught through Tantra Illuminated and by the practice orientation of the Vijñāna-bhairava-tantra, especially the way attention can open through space, sensation, thought, sound, darkness, delight, and the ordinary field of experience. In that context, formlessness is not treated as a rejection of manifestation, but as a shift in how manifestation is known: the apparent object becomes less important than the aware space, reflexivity, and luminous ground in which it appears. The piece therefore avoids body imagery and instead uses curvature, recursion, disappearance, and sparse traces to model a movement from spaciousness toward near-threshold perception. The jhana labels are used as the contest map, while the visual grammar leans on a Tantrik recognition frame: awareness recognizes its own activity, then progressively releases the need to stabilize around an object.

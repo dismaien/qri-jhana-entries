@@ -1,6 +1,6 @@
 # Draft Submission: Somatic Arc
 
-Working draft for the written description. This is already in contest format, but the method paragraph should be personalized before submission.
+Working draft for the written description. The practice-context paragraph now uses a nondual Shaiva Tantra framing rather than claiming a specific attainment history.
 
 ## Tags
 
@@ -20,4 +20,4 @@ In jhana 4 I compress contrast and event density so the visual field becomes alm
 
 Technically, the piece is generated from a set of coupled oscillator nodes placed through the avatar and aura. Each segment adjusts coherence, turbulence, node weights, pulse rate, and an attack/sustain/release-style envelope. A clipped contour layer gives the avatar more rounded internal volume, while a tactile overlay changes mark type across the sequence. The intention is to translate first-person meditative texture into a field language of synchronization and flow without reducing the experience to a mere diagram.
 
-Method note to personalize before submission: replace this paragraph with the actual route used to enter or approximate these states. Useful details would include the meditation object, whether the entry was breath-first, metta-to-pīti, body-saturation, or another route, and which parts of the render match direct experience versus interpretive reconstruction.
+Practice context: my background for this visual model is not a Theravada-only jhana protocol, but a nondual Shaiva Tantra practice context shaped by Tantra Illuminated and related Vijñāna-bhairava-tantra material. The practices I had in mind include breath and pause-based centering, heart and body-based awareness, mantra or subtle sound as a way of gathering attention, and the Tantrik move of recognizing sensations as expressions of a single field of awareness rather than obstacles to be excluded. For that reason, this piece should be read as a cross-tradition phenomenological translation: the jhana labels provide the contest structure, while the visual route emphasizes embodiment, energy, and recognition. The avatar is not intended as an anatomical body or a chakra diagram. It is a way to show how sensation can become increasingly coherent when attention, affect, and somatic intensity are allowed to organize as one field.
